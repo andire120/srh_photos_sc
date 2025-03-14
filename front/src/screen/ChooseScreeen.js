@@ -18,7 +18,7 @@ const ChooseScreen = ({ selectFrame }) => {
 
   return (
     <div className="choose-screen">
-      <h1>사진을 찍을 프레임을 선택하세요</h1>
+      <h1>Frame</h1>
       <div className="frame-container">
         <div className="frame-container2">
           <div
@@ -73,7 +73,7 @@ const ChooseScreen = ({ selectFrame }) => {
       </div>
       
       <button className="next-button" onClick={handleNext}>
-        다음 단계
+        촬영하기
       </button>
     </div>
   );

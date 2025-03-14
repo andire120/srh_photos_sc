@@ -22,8 +22,14 @@
 
 /* Center the logo with no extra space */
 .logo {
-  width: 300px; /* Adjust as needed */
-  height: 300px; /* Adjust as needed */
+  width: 30%; /* Adjust as needed */
+  height: 30%; /* Adjust as needed */
+  margin-bottom: 20px;
+}
+
+.logo2 {
+  width: 30%; /* Adjust as needed */
+  height: 30%; /* Adjust as needed */
   margin-bottom: 20px;
 }
 

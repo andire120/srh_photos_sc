@@ -95,11 +95,12 @@ h1 {
 
 .next-button {
   padding: 30px 150px; /* 버튼의 상하, 좌우 패딩을 크게 조정 */
-  font-size: 32px; /* 폰트 크기를 크게 설정 */
+  font-size: x-large; /* 폰트 크기를 크게 설정 */
+  font-weight: bold;
   border: none;
   border-radius: 15px; /* 버튼의 모서리를 조금 더 둥글게 설정 */
-  background-color: #fff;
-  color: #333;
+  background-color: #414141;
+  color: #ffffff;
   cursor: pointer;
   display: flex; /* flexbox로 중앙 정렬 유지 */
   align-items: center; /* 수직 중앙 정렬 */
@@ -110,6 +111,6 @@ h1 {
 }
 
 .next-button:hover {
-  background-color: #ddd;
+  background-color: #252525;
   transform: scale(1.08); /* 호버 시 크기 증가 */
 }
