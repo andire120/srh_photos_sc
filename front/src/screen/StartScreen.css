@@ -1,10 +1,3 @@
-
-.logo {
-  width: 100px; /* Adjust as needed */
-  height: 100px; /* Adjust as needed */
-  margin-bottom: 20px;
-}
-/* Remove default margins and padding */
 * {
   margin: 0;
   padding: 0;
@@ -17,44 +10,99 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  width: 100vw; /* Ensures full screen width */
+  width: 100%;
 }
 
-/* Center the logo with no extra space */
+.h-container {
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+}
+
+.height {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.left-container {
+  width: 60%;
+  display: flex;
+  align-items: center;
+}
+
+.right-container {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+
+  margin-left: 5%;
+}
+
+.text-group {
+  display: flex;
+  align-items: flex-end;
+  gap: 2%;
+}
+
 .logo {
-  width: 30%; /* Adjust as needed */
-  height: 30%; /* Adjust as needed */
-  margin-bottom: 20px;
+  width: 90%;
+  height: 90%;
 }
 
 .logo2 {
-  width: 30%; /* Adjust as needed */
-  height: 30%; /* Adjust as needed */
-  margin-bottom: 20px;
+  width: 140px;
+  height: 140px;
+  margin-bottom: 10px;
+  box-shadow: 10px 10px 10px rgb(180, 180, 180);
 }
 
-/* Style headings and text */
-h1 {
-  color: #000000;
-  margin: 10px 0; /* Minimal margin to avoid space issues */
-  text-align: center;
+.jum {
+  width: 10%;
+  margin-bottom: 25%;
+  font-size: 4rem;
+  color: #696969;
+  display: flex;
 }
 
-p {
-  color: #fff;
-  margin: 5px 0 20px;
-  text-align: center;
+.big {
+  font-family: Tienne-Regular;
+  font-size: xx-large;
+  font-weight: normal; /* 폰트 두께 조정 */
+  letter-spacing: normal; /* 글자 간격 조정 */
 }
 
-/* Style the button */
-button {
-  width: 300px;
-  height: 50px;
-  padding: 10px 20px;
-  font-size: 20px;
-  font-family: "CookieRun";
-  background-color: #fff;
-  border-radius: 5px;
+.smail {
+  font-family: Tienne-Regular;
+  font-size: large;
+  font-weight: normal; /* 폰트 두께 조정 */
+  letter-spacing: normal; /* 글자 간격 조정 */
+  margin-bottom: 4px;
+}
+
+
+.start-button {
+  padding: 30px 150px;
+  font-size: x-large;
+  font-weight: bold;
   border: none;
+  border-radius: 15px;
+  background-color: #414141;
+  color: #fff;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s, transform 0.3s;
+  max-width: 100%;
+  margin-top: 10%;
+}
+
+.start-button:hover {
+  background-color: #252525;
+  transform: scale(1.08);
 }

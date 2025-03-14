@@ -23,7 +23,7 @@ const ChooseScreen = ({ selectFrame }) => {
         <div className="frame-container2">
           <div
             className={`frame-option ${
-              selectedFrame === "spam_frame" ? "selected" : ""
+              selectedFrame === "light_frame" ? "selected" : ""
             }`}
             onClick={() => handleFrameSelect("light_frame")}
           >
@@ -31,7 +31,7 @@ const ChooseScreen = ({ selectFrame }) => {
           </div>
           <div
             className={`frame-option ${
-              selectedFrame === "mabear_frame" ? "selected" : ""
+              selectedFrame === "dark_frame" ? "selected" : ""
             }`}
             onClick={() => handleFrameSelect("dark_frame")}
           >
@@ -39,7 +39,7 @@ const ChooseScreen = ({ selectFrame }) => {
           </div>
           <div
             className={`frame-option ${
-              selectedFrame === "cheese_frame" ? "selected" : ""
+              selectedFrame === "spam_frame" ? "selected" : ""
             }`}
             onClick={() => handleFrameSelect("spam_frame")}
           >
@@ -47,7 +47,7 @@ const ChooseScreen = ({ selectFrame }) => {
           </div>
           <div
             className={`frame-option ${
-              selectedFrame === "yohan_frame" ? "selected" : ""
+              selectedFrame === "ohpan_frame" ? "selected" : ""
             }`}
             onClick={() => handleFrameSelect("ohpan_frame")}
           >
@@ -55,7 +55,7 @@ const ChooseScreen = ({ selectFrame }) => {
           </div>
           <div
             className={`frame-option ${
-              selectedFrame === "merun_frame" ? "selected" : ""
+              selectedFrame === "pixcel_frame" ? "selected" : ""
             }`}
             onClick={() => handleFrameSelect("pixcel_frame")}
           >
@@ -63,7 +63,7 @@ const ChooseScreen = ({ selectFrame }) => {
           </div>
           <div
             className={`frame-option ${
-              selectedFrame === "newjens_frame" ? "selected" : ""
+              selectedFrame === "yohan_frame" ? "selected" : ""
             }`}
             onClick={() => handleFrameSelect("yohan_frame")}
           >

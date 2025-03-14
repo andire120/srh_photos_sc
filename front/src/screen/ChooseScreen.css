@@ -16,6 +16,7 @@
 h1 {
   height: 10%;
   font-size: 50px; /* 폰트 크기 증가 */
+  font-family: Tienne-Regular;
 }
 
 .frame-container {
@@ -106,7 +107,7 @@ h1 {
   align-items: center; /* 수직 중앙 정렬 */
   justify-content: center; /* 수평 중앙 정렬 */
   transition: background-color 0.3s, transform 0.3s;
-  width: auto; /* 필요한 경우 버튼의 고정 크기를 설정 (예: 400px) */
+  width: auto; 
   max-width: 100%; /* 버튼 크기가 화면을 넘지 않도록 설정 */
 }
 
