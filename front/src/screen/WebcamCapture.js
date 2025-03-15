@@ -63,8 +63,8 @@ const WebcamCapture = ({ addPhoto, photoCount }) => {
       // 이미지 로드 완료 시 실행되는 콜백
       img.onload = () => { // 캔버스 생성 (이미지 편집을 위한 가상 드로잉 공간)
         const canvas = document.createElement("canvas");
-        canvas.width = 960;// 목표 출력 크기 설정 (960x1280)
-        canvas.height = 1280;
+        canvas.width = 1920;// 목표 출력 크기 설정 (960x1280)
+        canvas.height = 2560;
         
         // 캔버스 2D 컨텍스트 가져오기 (그리기 작업을 위한 객체)
         const ctx = canvas.getContext("2d");
@@ -144,7 +144,7 @@ const WebcamCapture = ({ addPhoto, photoCount }) => {
 
   return (
     <div className="webcam-container">
-      {/* 웹캠 컴포넌트 - 실시간 카메라 영상 표시 */}
+      <img src="./camera-frame.png" className="camera-frame" alt="카메라 프레임"/>
       <Webcam
         audio={false}                 // 오디오 캡처 비활성화
         ref={webcamRef}               // 웹캠 참조 설정 (스크린샷 촬영에 사용)
@@ -164,12 +164,12 @@ const WebcamCapture = ({ addPhoto, photoCount }) => {
       
       {/* 컨트롤 패널 - 사진 개수 표시 */}
       <div className="controls">
-        <p>{photoCount} / 4</p>
+        <p>{photoCount}/4</p>
       </div>
       
       {/* 카메라 촬영 버튼 - 클릭 시 촬영 시작 */}
-      <button className="camera-icon" onClick={capture}>
-        <img src="./camera.png" alt="촬영" />
+      <button className="camera-button" onClick={capture}>
+        <img className="camera-icon"  src="./camera.png" alt="촬영" />
       </button>
     </div>
   );
