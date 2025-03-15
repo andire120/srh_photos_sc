@@ -17,3 +17,8 @@ code {
   font-weight: normal;
   src: url("./font/Tienne-Regular.ttf") format("truetype");
 }
+
+@font-face {
+  font-family: "Tienne-Bold";
+  src: url("./font/Tienne-Bold.ttf") format("truetype");
+}

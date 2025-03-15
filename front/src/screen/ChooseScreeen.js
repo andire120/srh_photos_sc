@@ -18,7 +18,7 @@ const ChooseScreen = ({ selectFrame }) => {
 
   return (
     <div className="choose-screen">
-      <h1 className="main-text">Frame</h1>
+      <h1 className="main-text">FRAME</h1>
       <div className="frame-container">
         <div className="frame-container2">
           <div
@@ -27,7 +27,7 @@ const ChooseScreen = ({ selectFrame }) => {
             }`}
             onClick={() => handleFrameSelect("light_frame")}
           >
-            <div className="frame-image spam-frame"></div>
+            <div className="frame-image light-frame"></div>
           </div>
           <div
             className={`frame-option ${
@@ -35,7 +35,7 @@ const ChooseScreen = ({ selectFrame }) => {
             }`}
             onClick={() => handleFrameSelect("dark_frame")}
           >
-            <div className="frame-image mabear-frame"></div>
+            <div className="frame-image dark-frame"></div>
           </div>
           <div
             className={`frame-option ${
@@ -43,7 +43,7 @@ const ChooseScreen = ({ selectFrame }) => {
             }`}
             onClick={() => handleFrameSelect("spam_frame")}
           >
-            <div className="frame-image cheese-frame"></div>
+            <div className="frame-image spam-frame"></div>
           </div>
           <div
             className={`frame-option ${
@@ -51,7 +51,7 @@ const ChooseScreen = ({ selectFrame }) => {
             }`}
             onClick={() => handleFrameSelect("ohpan_frame")}
           >
-            <div className="frame-image yaohan-frame"></div>
+            <div className="frame-image ohpan-frame"></div>
           </div>
           <div
             className={`frame-option ${
@@ -59,15 +59,7 @@ const ChooseScreen = ({ selectFrame }) => {
             }`}
             onClick={() => handleFrameSelect("pixcel_frame")}
           >
-            <div className="frame-image merun-frame"></div>
-          </div>
-          <div
-            className={`frame-option ${
-              selectedFrame === "yohan_frame" ? "selected" : ""
-            }`}
-            onClick={() => handleFrameSelect("yohan_frame")}
-          >
-            <div className="frame-image newjens-frame"></div>
+            <div className="frame-image pixcel-frame"></div>
           </div>
         </div>
       </div>
