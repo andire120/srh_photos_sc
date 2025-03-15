@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from back.photo.catalog import serializers
 from catalog.models import Photo
 from django.urls import reverse
 from io import BytesIO
@@ -8,8 +9,22 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-class Command(BaseCommand):
+# serializers.py
+class PhotoSerializer(serializers.ModelSerializer):
     help = '모든 사진에 대한 QR 코드 생성'
+    qr_code_url = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Photo
+        fields = ['id', 'title', 'image', 'qr_code', 'qr_code_url', 'created_at']
+    
+    def get_qr_code_url(self, obj):
+        if obj.qr_code:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.qr_code.url)
+        return None
+    
 
     def handle(self, *args, **options):
         photos = Photo.objects.all()
@@ -22,7 +37,7 @@ class Command(BaseCommand):
             try:
                 # QR 코드가 없는 경우에만 생성
                 if not photo.qr_code:
-                    # QR 코드에 저장할 URL 생성
+                    # QR 코드에 저장할 URL 생성(배포 후에 이부분 변경)
                     qr_url = 'http://127.0.0.1:8000' + reverse('photo_detail', args=[str(photo.id)])
                     
                     # QR 코드 생성
