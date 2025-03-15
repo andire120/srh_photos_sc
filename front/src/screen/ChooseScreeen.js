@@ -18,7 +18,7 @@ const ChooseScreen = ({ selectFrame }) => {
 
   return (
     <div className="choose-screen">
-      <h1>Frame</h1>
+      <h1 className="main-text">Frame</h1>
       <div className="frame-container">
         <div className="frame-container2">
           <div

@@ -12,7 +12,7 @@ import "./App.css";
 function App() {
   const [photos, setPhotos] = useState([]);
   const [isCapturing, setIsCapturing] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState("start"); // "start", "tutorial", "choose", "capture", "result"
+  const [currentScreen, setCurrentScreen] = useState("start"); // 화면 전환 하는거
   const [selectedFrame, setSelectedFrame] = useState(null);
 
   const addPhoto = (photo) => {
@@ -22,16 +22,16 @@ function App() {
     if (photos.length === 3) {
       // 마지막 사진이 추가되었을 때
       setIsCapturing(false); // 촬영 종료
-      setCurrentScreen("result");
+      setCurrentScreen("result"); // 결과 화면으로 이이동ㅇ
     }
   };
 
   const handleStart = () => {
-    setCurrentScreen("tutorial"); // StartScreen에서 Tutorial로 이동
+    setCurrentScreen("tutorial"); // Tutorial로 이동
   };
 
   const handleTutorialComplete = () => {
-    setCurrentScreen("choose"); // Tutorial에서 ChooseScreen으로 이동
+    setCurrentScreen("choose"); // ChooseScreen으로 이동
   };
 
   const handleFrameSelect = (frame) => {
@@ -43,9 +43,9 @@ function App() {
   const renderScreen = () => {
     switch (currentScreen) {
       case "start":
-        return <StartScreen onStart={handleStart} />;
+        return <StartScreen onStart={handleStart} />; // onStart 하면 handleStart 호출하는 거
       case "tutorial":
-        return <TutorialScreen onComplete={handleTutorialComplete} />;
+        return <TutorialScreen onComplete={handleTutorialComplete} />; 
       case "choose":
         return <ChooseScreen selectFrame={handleFrameSelect} />;
       case "capture":

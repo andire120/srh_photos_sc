@@ -13,7 +13,7 @@
   width: 100%;
 }
 
-h1 {
+.main-text {
   height: 10%;
   font-size: 50px; /* 폰트 크기 증가 */
   font-family: Tienne-Regular;
