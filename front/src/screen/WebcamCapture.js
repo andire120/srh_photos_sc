@@ -20,21 +20,12 @@ const WebcamCapture = ({ addPhoto, photoCount }) => {
   // 사용할 카메라 디바이스 ID (특정 카메라를 지정할 때 사용)
   const deviceId = "7782baa2ef9fe736b816e8ecfcec158bd9057841d9a2f433e4006ed03f3570e8";
 
-  /**
-   * 촬영 시 재생할 사운드 함수
-   * 사진이 촬영될 때마다 사운드를 재생하여 사용자에게 피드백을 제공합니다.
-   */
-  const playSound = () => {
+  const playSound = () => { // 카메라 소리
     const audio = new Audio("./mp3.mp3");
     audio.play();
   };
 
-  /**
-   * 촬영 시작 함수
-   * 카메라 아이콘을 클릭하면 호출됩니다.
-   * 이미 4장을 촬영했거나 현재 촬영 중이면 실행되지 않습니다.
-   * 호출 시 카운트다운을 시작하고 촬영 상태를 활성화합니다.
-   */
+  // 촬영함수
   const capture = () => {
     if (photoCount >= 4 || capturing) return;// 이미 4장을 찍었거나 촬영 중이면 추가 촬영 방지
     setCapturing(true);// 촬영 상태 활성화

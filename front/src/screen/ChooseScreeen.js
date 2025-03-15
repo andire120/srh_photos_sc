@@ -23,6 +23,14 @@ const ChooseScreen = ({ selectFrame }) => {
         <div className="frame-container2">
           <div
             className={`frame-option ${
+              selectedFrame === "pixcel_frame" ? "selected" : ""
+            }`}
+            onClick={() => handleFrameSelect("pixcel_frame")}
+          >
+            <div className="frame-image pixcel-frame"></div>
+          </div>
+          <div
+            className={`frame-option ${
               selectedFrame === "light_frame" ? "selected" : ""
             }`}
             onClick={() => handleFrameSelect("light_frame")}
@@ -39,14 +47,6 @@ const ChooseScreen = ({ selectFrame }) => {
           </div>
           <div
             className={`frame-option ${
-              selectedFrame === "spam_frame" ? "selected" : ""
-            }`}
-            onClick={() => handleFrameSelect("spam_frame")}
-          >
-            <div className="frame-image spam-frame"></div>
-          </div>
-          <div
-            className={`frame-option ${
               selectedFrame === "ohpan_frame" ? "selected" : ""
             }`}
             onClick={() => handleFrameSelect("ohpan_frame")}
@@ -55,11 +55,11 @@ const ChooseScreen = ({ selectFrame }) => {
           </div>
           <div
             className={`frame-option ${
-              selectedFrame === "pixcel_frame" ? "selected" : ""
+              selectedFrame === "spam_frame" ? "selected" : ""
             }`}
-            onClick={() => handleFrameSelect("pixcel_frame")}
+            onClick={() => handleFrameSelect("spam_frame")}
           >
-            <div className="frame-image pixcel-frame"></div>
+            <div className="frame-image spam-frame"></div>
           </div>
         </div>
       </div>
