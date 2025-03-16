@@ -33,13 +33,13 @@
 /* 카운트다운 타이머의 스타일 설정 */
 .countdown-overlay {
   position: absolute;
-  top: 50%; /* 수직 중앙 */
+  top: 45%;
   left: 50%; /* 수평 중앙 */
-  transform: translate(-50%, -50%); /* 정확한 중앙 정렬 */
-  font-size: 300px; /* 타이머 크기 */
+  transform: translate(-45%, -50%);
+  font-size: 250px; /* 타이머 크기 */
   color: #3f3f3f; /* 타이머 색상 */
   font-weight: bold; /* 두껍게 표시 */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 그림자 효과 */
+  font-family: EF_jejudoldam;
   z-index: 2;
 }
 
