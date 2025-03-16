@@ -1,0 +1,56 @@
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
+
+    .next-button {
+        margin-bottom: 5%;
+    }
+    
+    .left {
+        margin-right: 60px; 
+    }
+    
+    img {
+        width: 320px; 
+        height: auto;
+    }
+    
+
+    
+    .head{
+        margin-top: 5%;
+        font-weight: bold;
+        font-family: Tienne-Bold;
+        font-size: 45px;
+    }
+
+
+    li {
+        font-size: 18px;
+        list-style-type: disc; 
+        list-style-position: inside; 
+    }
+
+    .no-center {
+        
+        display: block;
+        text-align: left;
+        margin: 0; 
+    }
+
+    .no-center li {
+        font-size: x-large;
+        margin: 0; 
+    }
+    
+    .no-center ul {
+        padding-left: 0;
+        margin: 0; 
+        text-align: left;
+    }
+    
