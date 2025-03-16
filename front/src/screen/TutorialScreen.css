@@ -1,0 +1,40 @@
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
+    
+    .left {
+        margin-right: 40px; 
+    }
+    
+    img {
+        width: 300px; 
+        height: auto;
+    }
+    
+    .right {
+        font-size: 20px;
+    }
+    
+    .head{
+        font-weight: bold;
+    }
+
+    ul {
+        font-weight: bold;
+        padding-left: 0; 
+        display: flex;
+        flex-direction: column; 
+        align-items: center; 
+    }
+    
+    li {
+        font-size: 18px;
+        list-style-type: disc; 
+        list-style-position: inside; 
+    }
+    
+    
