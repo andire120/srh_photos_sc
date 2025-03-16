@@ -45,7 +45,7 @@
 
 /* 컨트롤 패널의 배치 설정 */
 .controls {
-  margin-top: 25%;
+  margin-top: 28%;
   text-align: center; /* 텍스트와 아이콘 중앙 정렬 */
   position: absolute;
   z-index: 2;
@@ -76,7 +76,7 @@
   transition: background-color 0.3s, transform 0.3s;
   width: auto; 
   max-width: 100%; /* 버튼 크기가 화면을 넘지 않도록 설정 */
-  margin-top: 35%;
+  margin-top: 37%;
   position: absolute;
   z-index: 2;
 
