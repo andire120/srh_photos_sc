@@ -3,9 +3,9 @@ import StartScreen from "./screen/StartScreen";
 import ChooseScreen from "./screen/ChooseScreeen";
 import WebcamCapture from "./screen/WebcamCapture"; // 예시 프레임 카메라 컴포넌트
 import PhotoFrame from "./screen/PhotoFrame";
-import DownloadButton from "./screen/DownloadButton";
 import IdolCam from "./screen/IdolCam";
 import TutorialScreen from "./screen/TutorialScreen";
+import PhotoFrameTest from "./screen/PhotoFrameTest"
 
 import "./App.css";
 
@@ -61,8 +61,7 @@ function App() {
       case "result":
         return (
           <div>
-            <PhotoFrame photos={photos} frameType={selectedFrame} />
-            <DownloadButton />
+            <PhotoFrameTest photos={photos} frameType={selectedFrame} />
           </div>
         );
       default:

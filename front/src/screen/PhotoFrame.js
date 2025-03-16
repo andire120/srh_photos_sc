@@ -1,70 +1,118 @@
-import React from "react";
-import "./PhotoFrame.css";
+import React, { useState } from "react";
+import html2canvas from "html2canvas";
+import "./DownloadButton.css";
 
-const frameLayouts = {
-  spam_frame: [
-    { width: 512, height: 612, top: 406, left: 63 },
-    { width: 512, height: 612, top: 137, left: 626 },
-    { width: 512, height: 612, top: 1050, left: 63 },
-    { width: 512, height: 612, top: 781, left: 626 },
-  ],
-  mabear_frame: [
-    { width: 512, height: 612, top: 406, left: 63 },
-    { width: 512, height: 612, top: 137, left: 626 },
-    { width: 512, height: 612, top: 1050, left: 63 },
-    { width: 512, height: 612, top: 781, left: 626 },
-  ],
-  cheese_frame: [
-    { width: 512, height: 612, top: 406, left: 63 },
-    { width: 512, height: 612, top: 137, left: 626 },
-    { width: 512, height: 612, top: 1050, left: 63 },
-    { width: 512, height: 612, top: 781, left: 626 },
-  ],
-  yohan_frame: [
-    { width: 512, height: 612, top: 406, left: 63 },
-    { width: 512, height: 612, top: 137, left: 626 },
-    { width: 512, height: 612, top: 1050, left: 63 },
-    { width: 512, height: 612, top: 781, left: 626 },
-  ],
-  merun_frame: [
-    { width: 513, height: 612, top: 406, left: 63 },
-    { width: 513, height: 612, top: 137, left: 626 },
-    { width: 513, height: 612, top: 1050, left: 63 },
-    { width: 513, height: 612, top: 781, left: 625 },
-  ],
-  newjens_frame: [
-    { width: 512, height: 612, top: 406, left: 63 },
-    { width: 512, height: 612, top: 137, left: 625 },
-    { width: 512, height: 612, top: 1050, left: 63 },
-    { width: 512, height: 612, top: 781, left: 626 },
-  ],
-};
-const PhotoFrame = ({ photos, frameType }) => {
-  const layouts = frameLayouts[frameType] || [];
+const DownloadButton = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const captureImage = (action) => {
+    setIsLoading(true);
+    const frame = document.querySelector(".photo-frame-container");
+
+    if (!frame) {
+      alert("프레임을 찾을 수 없습니다.");
+      setIsLoading(false);
+      return;
+    }
+
+    const images = frame.querySelectorAll("img");
+    const imagePromises = Array.from(images).map((img) => {
+      if (img.complete) return Promise.resolve();
+      return new Promise((resolve) => {
+        img.onload = resolve;
+        img.onerror = resolve;
+      });
+    });
+
+    Promise.all(imagePromises).then(() => {
+      html2canvas(frame, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null,
+        width: frame.offsetWidth,
+        height: frame.offsetHeight,
+        scrollX: -window.scrollX,
+        scrollY: -window.scrollY,
+      })
+        .then((canvas) => {
+          if (action === "print") {
+            const imgData = canvas.toDataURL("image/png");
+            const printContent = `
+            <html>
+              <head>
+                <title>Print</title>
+                <style>
+                  @page {
+                    size: 100mm 148mm; /* Hagaki size */
+                    margin: 0;
+                  }
+                  body {
+                    margin: 0;
+                    padding: 0;
+                  }
+                  img {
+                    width: 100mm;
+                    height: 148mm;
+                    object-fit: contain;
+                  }
+                </style>
+              </head>
+              <body>
+                <img src="${imgData}" alt="Print Image">
+                <script>
+                  window.onload = function() {
+                    setTimeout(function() {
+                      window.print();
+                      window.close();
+                    }, 500);
+                  };
+                </script>
+              </body>
+            </html>
+          `;
+            const printWindow = window.open("", "_blank");
+            if (printWindow) {
+              printWindow.document.write(printContent);
+              printWindow.document.close();
+            } else {
+              alert(
+                "팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요."
+              );
+            }
+          } else if (action === "download") {
+            const link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png");
+            link.download = "insaengnecut.png";
+            link.click();
+          }
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.error("캡처 중 오류 발생:", err);
+          alert("이미지 캡처 중 오류가 발생했습니다.");
+          setIsLoading(false);
+        });
+    });
+  };
 
   return (
-    <div className="photo-frame-container">
-      {photos.map((photo, index) => (
-        <img
-          key={index}
-          src={photo}
-          alt={`사진 ${index + 1}`}
-          className={`photo${index + 1}`}
-          style={{
-            width: layouts[index]?.width,
-            height: layouts[index]?.height,
-            top: layouts[index]?.top,
-            left: layouts[index]?.left,
-          }}
-          crossOrigin="anonymous"
-        />
-      ))}
-      <div
-        className="frame-overlay"
-        style={{ backgroundImage: `url(/${frameType}.png)` }}
-      />
+    <div className="download-box">
+      <button
+        className="print-button"
+        onClick={() => captureImage("print")}
+        disabled={isLoading}
+      >
+        {isLoading ? "처리 중..." : "출력"}
+      </button>
+      <button
+        className="download-button"
+        onClick={() => captureImage("download")}
+        disabled={isLoading}
+      >
+        {isLoading ? "처리 중..." : "다운로드"}
+      </button>
     </div>
   );
 };
 
-export default PhotoFrame;
+export default DownloadButton;
