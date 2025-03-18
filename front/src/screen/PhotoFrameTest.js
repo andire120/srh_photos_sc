@@ -275,72 +275,75 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
   }, [photos, frameType]);
 
   return (
-    <div className="photo-frame-container">
-      {/* 미리보기 영역 */}
-      <div className="preview-container">
-        {isPreviewReady && mergedImageUrl ? (// 합성된 이미지가 있으면 보여주기
-          <div className="merged-image-preview" >
-            <img src={mergedImageUrl} alt="합성된 인생네컷" className="result-image"/>
-          </div>
-        ) : ( // 로딩 중이거나 합성 실패 시 보여주는 부분 
-          <div className="loading-preview">
-            <p>이미지 합성 중...</p>
-          </div>
-        )}
-        <button
-          className="print-button"
-          onClick={() => handleAction("print", "canvas")}
-          disabled={isLoading}
-        >
-          {isLoading ? "처리 중..." : "출력"}
-        </button>
-      </div>
-      
-      <div className="section2">
-        <div className="qr-section">
-          <p>QR 코드를 스캔해 인생네컷을 저장하세요!</p>
-          <div className="qr-placeholder">
-            QR
-          </div>
+    <div className="result-container">
+     <div className="photo-frame-container">
+        {/* 미리보기 영역 */}
+        <div className="preview-container">
+          {isPreviewReady && mergedImageUrl ? (// 합성된 이미지가 있으면 보여주기
+            <div className="merged-image-preview" >
+              <img src={mergedImageUrl} alt="합성된 인생네컷" className="result-image"/>
+            </div>
+          ) : ( // 로딩 중이거나 합성 실패 시 보여주는 부분 
+            <div className="loading-preview">
+              <p>이미지 합성 중...</p>
+            </div>
+          )}
+          <button
+            className="print-button"
+            onClick={() => handleAction("print", "canvas")}
+            disabled={isLoading}
+          >
+            {isLoading ? "처리 중..." : "출력"}
+          </button>
         </div>
         
-        <button className="back-button" onClick={onBack}>
-          처음으로 {'>'}
-        </button>
-      </div>
+        <div className="section2">
+          <div className="qr-section">
+            <p>QR 코드를 스캔해 인생네컷을 저장하세요!</p>
+            <div className="qr-placeholder">
+              QR
+            </div>
+          </div>
+          
+          <button className="back-button" onClick={onBack}>
+            처음으로 {'>'}
+          </button>
+        </div>
 
-      {/* 숨겨진 프레임 컨테이너 (html2canvas 용) */}
-      <div className="frame_container" ref={containerRef}>
-        {photos.map((photo, index) => (
+        {/* 숨겨진 프레임 컨테이너 (html2canvas 용) */}
+        <div className="frame_container" ref={containerRef}>
+          {photos.map((photo, index) => (
+            <img
+              key={index}
+              src={photo}
+              alt={`사진 ${index + 1}`}
+              className={`photo${index + 1}`}
+              style={{
+                width: layouts[index]?.width / 4,
+                height: layouts[index]?.height / 4,
+                top: layouts[index]?.top / 4,
+                left: layouts[index]?.left / 4,
+                position: 'absolute',
+                objectFit: 'cover'
+              }}
+              crossOrigin="anonymous"
+            />
+          ))}
           <img
-            key={index}
-            src={photo}
-            alt={`사진 ${index + 1}`}
-            className={`photo${index + 1}`}
-            style={{
-              width: layouts[index]?.width / 4,
-              height: layouts[index]?.height / 4,
-              top: layouts[index]?.top / 4,
-              left: layouts[index]?.left / 4,
-              position: 'absolute',
-              objectFit: 'cover'
-            }}
+            src={`/${frameType}.png`}
+            alt="프레임"
+            className="frame-overlay"
+            onLoad={handleFrameLoad}
+            onError={handleFrameError}
             crossOrigin="anonymous"
           />
-        ))}
-        <img
-          src={`/${frameType}.png`}
-          alt="프레임"
-          className="frame-overlay"
-          onLoad={handleFrameLoad}
-          onError={handleFrameError}
-          crossOrigin="anonymous"
-        />
-      </div>
+        </div>
 
-      {/* 캔버스 영역 (화면에 보이지 않음) */}
-      <canvas ref={canvasRef} className="not-see"/>
+        {/* 캔버스 영역 (화면에 보이지 않음) */}
+        <canvas ref={canvasRef} className="not-see"/>
+      </div> 
     </div>
+    
   );
 };
 
