@@ -40,6 +40,10 @@ function App() {
     setCurrentScreen("capture"); // 캡처 화면으로 전환
   };
 
+  const handleBack = () => {
+    setCurrentScreen("start"); // 처음 화면으로 이동
+  }
+
   const renderScreen = () => {
     switch (currentScreen) {
       case "start":
@@ -48,6 +52,7 @@ function App() {
         return <TutorialScreen onComplete={handleTutorialComplete} />; 
       case "choose":
         return <ChooseScreen selectFrame={handleFrameSelect} />;
+      
       case "capture":
         return selectedFrame === "park_frame" ? (
           <IdolCam
@@ -61,7 +66,7 @@ function App() {
       case "result":
         return (
           <div>
-            <PhotoFrameTest photos={photos} frameType={selectedFrame} />
+            <PhotoFrameTest photos={photos} frameType={selectedFrame} onBack={handleBack}/>
           </div>
         );
       default:
