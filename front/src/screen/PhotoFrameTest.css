@@ -38,7 +38,7 @@
     border-radius: 5px;
 }
 
-.frame-container{
+.frame_container{
     position: relative;
     width: 300px;
     height: 450px;
@@ -86,9 +86,10 @@
 
 .print-button{
     width: 300px;
+    
     background-color: #ddd;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
 }
 

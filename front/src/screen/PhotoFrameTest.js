@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import html2canvas from "html2canvas";
-import "./PhotoFrame.css";
+import "./PhotoFrameTest.css";
 
 const frameLayouts = {
   pixcel_frame: [
-    { width: 512, height: 612, top: 406, left: 63 },
-    { width: 512, height: 612, top: 137, left: 626 },
-    { width: 512, height: 612, top: 1050, left: 63 },
-    { width: 512, height: 612, top: 781, left: 626 },
+    { width: 512, height: 612, top: 186, left: 63 },
+    { width: 512, height: 612, top: 186, left: 626 },
+    { width: 512, height: 612, top: 901, left: 63 },
+    { width: 512, height: 612, top: 901, left: 626 },
   ],
   light_frame: [
     { width: 512, height: 612, top: 406, left: 63 },
@@ -27,12 +27,6 @@ const frameLayouts = {
     { width: 512, height: 612, top: 1050, left: 63 },
     { width: 512, height: 612, top: 781, left: 626 },
   ],
-  merun_frame: [
-    { width: 513, height: 612, top: 406, left: 63 },
-    { width: 513, height: 612, top: 137, left: 626 },
-    { width: 513, height: 612, top: 1050, left: 63 },
-    { width: 513, height: 612, top: 781, left: 625 },
-  ],
   spam_frame: [
     { width: 512, height: 612, top: 406, left: 63 },
     { width: 512, height: 612, top: 137, left: 625 },
@@ -41,7 +35,7 @@ const frameLayouts = {
   ],
 };
 
-const PhotoFrameTest = ({ photos, frameType, onNext, title = "인생네컷" }) => {
+const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) => {
   const layouts = frameLayouts[frameType] || [];
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
@@ -281,57 +275,42 @@ const PhotoFrameTest = ({ photos, frameType, onNext, title = "인생네컷" }) =
   }, [photos, frameType]);
 
   return (
-    <div className="photo-frame-with-download-container">
+    <div className="photo-frame-container">
       {/* 미리보기 영역 */}
-      <div className="preview-container" style={{ marginBottom: '20px' }}>
-        {isPreviewReady && mergedImageUrl ? (
-          // 합성된 이미지가 있으면 보여주기
-          <div className="merged-image-preview" style={{ 
-            width: '300px', 
-            height: '450px', 
-            margin: '0 auto', 
-            textAlign: 'center' 
-          }}>
-            <img 
-              src={mergedImageUrl} 
-              alt="합성된 인생네컷" 
-              style={{ 
-                maxWidth: '100%', 
-                maxHeight: '100%', 
-                objectFit: 'contain' 
-              }}
-            />
+      <div className="preview-container">
+        {isPreviewReady && mergedImageUrl ? (// 합성된 이미지가 있으면 보여주기
+          <div className="merged-image-preview" >
+            <img src={mergedImageUrl} alt="합성된 인생네컷" className="result-image"/>
           </div>
-        ) : (
-          // 로딩 중이거나 합성 실패 시 보여주는 부분
-          <div className="loading-preview" style={{ 
-            width: '300px', 
-            height: '450px', 
-            margin: '0 auto', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            backgroundColor: '#f0f0f0',
-            border: '1px solid #ddd',
-            borderRadius: '5px'
-          }}>
+        ) : ( // 로딩 중이거나 합성 실패 시 보여주는 부분 
+          <div className="loading-preview">
             <p>이미지 합성 중...</p>
           </div>
         )}
+        <button
+          className="print-button"
+          onClick={() => handleAction("print", "canvas")}
+          disabled={isLoading}
+        >
+          {isLoading ? "처리 중..." : "출력"}
+        </button>
+      </div>
+      
+      <div className="section2">
+        <div className="qr-section">
+          <p>QR 코드를 스캔해 인생네컷을 저장하세요!</p>
+          <div className="qr-placeholder">
+            QR
+          </div>
+        </div>
+        
+        <button className="back-button" onClick={onBack}>
+          처음으로 {'>'}
+        </button>
       </div>
 
       {/* 숨겨진 프레임 컨테이너 (html2canvas 용) */}
-      <div 
-        className="photo-frame-container" 
-        ref={containerRef}
-        style={{
-          position: 'relative',
-          width: '300px',
-          height: '450px',
-          margin: '0 auto',
-          display: 'none'
-        }}
-      >
+      <div className="frame_container" ref={containerRef}>
         {photos.map((photo, index) => (
           <img
             key={index}
@@ -353,90 +332,14 @@ const PhotoFrameTest = ({ photos, frameType, onNext, title = "인생네컷" }) =
           src={`/${frameType}.png`}
           alt="프레임"
           className="frame-overlay"
-          style={{ 
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-            zIndex: 10
-          }}
           onLoad={handleFrameLoad}
           onError={handleFrameError}
           crossOrigin="anonymous"
         />
       </div>
 
-      {/* QR 코드 섹션 */}
-      <div className="qr-section" style={{ 
-        backgroundColor: '#f0f0f0', 
-        padding: '15px', 
-        borderRadius: '5px',
-        margin: '15px 0',
-        textAlign: 'center'
-      }}>
-        <p>QR 코드를 스캔해 인생네컷을 저장하세요!</p>
-        <div className="qr-placeholder" style={{ 
-          width: '80px', 
-          height: '80px', 
-          backgroundColor: '#ccc',
-          margin: '10px auto',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontWeight: 'bold'
-        }}>
-          QR
-        </div>
-      </div>
-
-      {/* 버튼 영역 */}
-      <div className="button-container" style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginTop: '15px'
-      }}>
-        <button
-          className="print-button"
-          onClick={() => handleAction("print", "canvas")}
-          disabled={isLoading}
-          style={{
-            flex: 1,
-            padding: '10px 15px',
-            backgroundColor: '#ddd',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            marginRight: '5px'
-          }}
-        >
-          {isLoading ? "처리 중..." : "출력"}
-        </button>
-        
-        <button
-          className="next-button"
-          onClick={onNext}
-          style={{
-            flex: 1,
-            padding: '10px 15px',
-            backgroundColor: '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            marginLeft: '5px'
-          }}
-        >
-          저장으로 {'>'}
-        </button>
-      </div>
-
       {/* 캔버스 영역 (화면에 보이지 않음) */}
-      <canvas 
-        ref={canvasRef} 
-        style={{ display: 'none' }} 
-      />
+      <canvas ref={canvasRef} className="not-see"/>
     </div>
   );
 };
