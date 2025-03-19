@@ -350,7 +350,7 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
               <div className="qr-loading">업로드 중...</div>
             ) : qrCodeUrl ? (
               <div className="qr-image">
-                <img src={qrCodeUrl} alt="QR 코드" />
+                <img src={qrCodeUrl} alt="QR 코드" style={{ width: "100%", height: "100%" }}/>
               </div>
             ) : (
               <div className="qr-placeholder">QR</div>
