@@ -59,7 +59,7 @@
 }
 
 .frame-option.selected {
-  border-color: #ff7f50; /* 선택된 프레임의 테두리 색상 */
+  border-color: #8550ff; /* 선택된 프레임의 테두리 색상 */
   transform: scale(1.15); /* 선택된 프레임의 크기 증가 */
 }
 

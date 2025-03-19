@@ -37,17 +37,23 @@ function App() {
   const handleFrameSelect = (frame) => {
     setSelectedFrame(frame); // 선택한 프레임 설정
     setIsCapturing(true); // 사진 촬영 시작
+    setPhotos([]); // 새로운 프레임을 선택할 때 photos 배열 초기화
     setCurrentScreen("capture"); // 캡처 화면으로 전환
   };
 
   const handleBack = () => {
     setCurrentScreen("start"); // 처음 화면으로 이동
+    setPhotos([]); // photos 배열 초기화
+  }
+
+  const clearPhoto = () => {
+    setPhotos([]);
   }
 
   const renderScreen = () => {
     switch (currentScreen) {
       case "start":
-        return <StartScreen onStart={handleStart} />; // onStart 하면 handleStart 호출하는 거
+        return <StartScreen onStart={handleStart}/>; // onStart 하면 handleStart 호출하는 거
       case "tutorial":
         return <TutorialScreen onComplete={handleTutorialComplete} />; 
       case "choose":
@@ -61,7 +67,7 @@ function App() {
             setIsCapturing={setIsCapturing}
           />
         ) : (
-          <WebcamCapture addPhoto={addPhoto} photoCount={photos.length} />
+          <WebcamCapture addPhoto={addPhoto} photoCount={photos.length} clearPhoto={clearPhoto}/>
         );
       case "result":
         return (

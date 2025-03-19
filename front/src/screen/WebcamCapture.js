@@ -10,7 +10,7 @@ import "./WebcamCapture.css";
  * @param {function} addPhoto - 촬영된 사진을 상위 컴포넌트에 전달하는 콜백 함수
  * @param {number} photoCount - 현재까지 촬영된 사진 수 (0-4)
  */
-const WebcamCapture = ({ addPhoto, photoCount }) => {
+const WebcamCapture = ({ addPhoto, photoCount, clearPhoto }) => {
   const webcamRef = useRef(null);// 웹캠 DOM 요소에 접근하기 위한 참조 객체
   const [capturing, setCapturing] = useState(false);// 현재 촬영 진행 중인지 여부를 나타내는 상태 (true: 촬영 중, false: 대기 중)
   const [countdown, setCountdown] = useState(0);// 카운트다운 타이머 값 (5초부터 0초까지 감소)

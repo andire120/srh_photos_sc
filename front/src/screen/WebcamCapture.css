@@ -41,6 +41,7 @@
   font-weight: bold; /* 두껍게 표시 */
   font-family: EF_jejudoldam;
   z-index: 2;
+  opacity: 60%;
 }
 
 /* 컨트롤 패널의 배치 설정 */
