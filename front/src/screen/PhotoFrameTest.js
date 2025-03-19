@@ -43,6 +43,8 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
   const [mergedImageUrl, setMergedImageUrl] = useState(null);
   const [isPreviewReady, setIsPreviewReady] = useState(false);
   const [frameLoaded, setFrameLoaded] = useState(false);
+  const [qrCodeUrl, setQrCodeUrl] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   // Canvas로 이미지 합성하기
   const mergeImagesWithCanvas = async () => {
@@ -96,6 +98,45 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
       return url;
     } catch (error) {
       console.error("이미지 합성 중 오류 발생:", error);
+      return null;
+    }
+  };
+
+  // 이미지를 서버에 업로드하고 QR 코드 URL 받기
+  const uploadImageToServer = async (imageUrl) => {
+    try {
+      setIsUploading(true);
+      
+      // base64 이미지 URL을 Blob으로 변환
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      
+      // FormData 생성 및 이미지 추가
+      const formData = new FormData();
+      formData.append('title', `${title}_${new Date().getTime()}`);
+      formData.append('image', blob, `${title}_${new Date().getTime()}.png`);
+      
+      // 서버에 이미지 업로드
+      const uploadResponse = await fetch('http://127.0.0.1:8000/api/photos/', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!uploadResponse.ok) {
+        throw new Error(`서버 응답 오류: ${uploadResponse.status}`);
+      }
+      
+      const data = await uploadResponse.json();
+      console.log('업로드 응답:', data);
+      
+      // QR 코드 URL 설정
+      setQrCodeUrl(data.qr_code_url);
+      setIsUploading(false);
+      
+      return data;
+    } catch (error) {
+      console.error('이미지 업로드 중 오류 발생:', error);
+      setIsUploading(false);
       return null;
     }
   };
@@ -270,13 +311,18 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
   // 컴포넌트가 마운트되면 미리 이미지 합성
   useEffect(() => {
     if (photos.length > 0 && frameType) {
-      mergeImagesWithCanvas();
+      mergeImagesWithCanvas().then(imgUrl => {
+        if (imgUrl) {
+          // 합성된 이미지를 서버에 업로드하고 QR 코드 URL 받기
+          uploadImageToServer(imgUrl);
+        }
+      });
     }
   }, [photos, frameType]);
 
   return (
     <div className="result-container">
-     <div className="photo-frame-container">
+      <div className="photo-frame-container">
         {/* 미리보기 영역 */}
         <div className="preview-container">
           {isPreviewReady && mergedImageUrl ? (// 합성된 이미지가 있으면 보여주기
@@ -300,9 +346,15 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
         <div className="section2">
           <div className="qr-section">
             <p>QR 코드를 스캔해 인생네컷을 저장하세요!</p>
-            <div className="qr-placeholder">
-              QR
-            </div>
+            {isUploading ? (
+              <div className="qr-loading">업로드 중...</div>
+            ) : qrCodeUrl ? (
+              <div className="qr-image">
+                <img src={qrCodeUrl} alt="QR 코드" />
+              </div>
+            ) : (
+              <div className="qr-placeholder">QR</div>
+            )}
           </div>
           
           <button className="back-button" onClick={onBack}>
@@ -343,7 +395,6 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
         <canvas ref={canvasRef} className="not-see"/>
       </div> 
     </div>
-    
   );
 };
 

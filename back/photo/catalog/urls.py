@@ -13,4 +13,5 @@ urlpatterns = [
     # REST API 엔드포인트
     path('api/', include(router.urls)),
     # 다운로드 URL은 router가 자동으로 생성 (/api/photos/{pk}/download/)
+    path('api/current-date/', views.get_current_date, name='current_date'),
 ]
