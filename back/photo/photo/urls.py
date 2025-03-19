@@ -19,9 +19,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from back.photo.catalog import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('catalog.urls')),  # 앱 이름을 확인하세요
+    path('api/current-date/', views.get_current_date, name='current_date'), #날짜
 ]
 
 # 개발 환경에서 미디어 파일 서빙 설정

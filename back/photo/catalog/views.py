@@ -53,3 +53,11 @@ class PhotoViewSet(viewsets.ModelViewSet):
             return response
         
         return Response({"error": "File not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+#날짜 보내주는 코드
+from django.http import JsonResponse
+from datetime import datetime
+
+def get_current_date(request):
+    current_date = datetime.now().strftime('%Y-%m-%d')  # 'YYYY-MM-DD' 형식
+    return JsonResponse({'current_date': current_date})
