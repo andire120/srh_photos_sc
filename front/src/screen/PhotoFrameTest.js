@@ -4,34 +4,34 @@ import "./PhotoFrameTest.css";
 
 const frameLayouts = {
   pixcel_frame: [
-    { width: 512, height: 612, top: 186, left: 63 },
-    { width: 512, height: 612, top: 186, left: 626 },
-    { width: 512, height: 612, top: 901, left: 63 },
-    { width: 512, height: 612, top: 901, left: 626 },
+    { width: 512, height: 712, top: 128, left: 78 },
+    { width: 512, height: 712, top: 128, left: 610 },
+    { width: 512, height: 712, top: 845, left: 78 },
+    { width: 512, height: 712, top: 845, left: 610 },
   ],
   light_frame: [
-    { width: 512, height: 612, top: 406, left: 63 },
-    { width: 512, height: 612, top: 137, left: 626 },
-    { width: 512, height: 612, top: 1050, left: 63 },
-    { width: 512, height: 612, top: 781, left: 626 },
+    { width: 512, height: 712, top: 128, left: 78 },
+    { width: 512, height: 712, top: 128, left: 610 },
+    { width: 512, height: 712, top: 845, left: 78 },
+    { width: 512, height: 712, top: 845, left: 610 },
   ],
   dark_frame: [
-    { width: 512, height: 612, top: 406, left: 63 },
-    { width: 512, height: 612, top: 137, left: 626 },
-    { width: 512, height: 612, top: 1050, left: 63 },
-    { width: 512, height: 612, top: 781, left: 626 },
+    { width: 512, height: 712, top: 128, left: 78 },
+    { width: 512, height: 712, top: 128, left: 610 },
+    { width: 512, height: 712, top: 845, left: 78 },
+    { width: 512, height: 712, top: 845, left: 610 },
   ],
   ohpan_frame: [
-    { width: 512, height: 612, top: 406, left: 63 },
-    { width: 512, height: 612, top: 137, left: 626 },
-    { width: 512, height: 612, top: 1050, left: 63 },
-    { width: 512, height: 612, top: 781, left: 626 },
+    { width: 472, height: 652, top: 245, left: 76 },
+    { width: 472, height: 652, top: 160, left: 634 },
+    { width: 472, height: 652, top: 972, left: 76 },
+    { width: 472, height: 652, top: 888, left: 634 },
   ],
   spam_frame: [
-    { width: 512, height: 612, top: 406, left: 63 },
-    { width: 512, height: 612, top: 137, left: 625 },
-    { width: 512, height: 612, top: 1050, left: 63 },
-    { width: 512, height: 612, top: 781, left: 626 },
+    { width: 512, height: 712, top: 220, left: 63 },
+    { width: 512, height: 712, top: 137, left: 626 },
+    { width: 512, height: 712, top: 952, left: 63 },
+    { width: 512, height: 712, top: 861, left: 626 },
   ],
 };
 
@@ -345,7 +345,7 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
         
         <div className="section2">
           <div className="qr-section">
-            <p>QR 코드를 스캔해 인생네컷을 저장하세요!</p>
+            <p className="gle">QR 코드를 스캔해 인생네컷을 저장하세요!</p>
             {isUploading ? (
               <div className="qr-loading">업로드 중...</div>
             ) : qrCodeUrl ? (
