@@ -32,7 +32,7 @@ class Photo(models.Model):
         # QR 코드 항상 생성 (기존 코드는 qr_exists 체크)
         try:
             # QR 코드에 저장할 직접 다운로드 URL 생성
-            qr_url = f'http://127.0.0.1:8000/api/photos/{self.id}/download/'
+            qr_url = f'http://spam4cut.com/api/photos/{self.id}/download/'
             
             # QR 코드 생성
             qr = qrcode.QRCode(
