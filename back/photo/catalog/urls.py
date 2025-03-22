@@ -1,6 +1,7 @@
 from django.urls import path, include, re_path
 from . import views
 from rest_framework.routers import DefaultRouter
+from django.contrib.staticfiles.views import serve
 from django.views.generic import TemplateView
 
 router = DefaultRouter()
@@ -14,6 +15,7 @@ urlpatterns = [
     # REST API 엔드포인트
     path('api/', include(router.urls)),
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
+    re_path(r'^manifest.json$', serve, {'path': 'manifest.json'}),
     # 다운로드 URL은 router가 자동으로 생성 (/api/photos/{pk}/download/)
     path('api/current-date/', views.get_current_date, name='current_date'),
 ]
