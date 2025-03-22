@@ -327,7 +327,7 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
         <div className="preview-container">
           {isPreviewReady && mergedImageUrl ? (// 합성된 이미지가 있으면 보여주기
             <div className="merged-image-preview" >
-              <img src={mergedImageUrl} alt="합성된 인생네컷" className="result-image"/>
+              <img src={`${process.env.PUBLIC_URL}/{mergedImageUrl}`} alt="합성된 인생네컷" className="result-image"/>
             </div>
           ) : ( // 로딩 중이거나 합성 실패 시 보여주는 부분 
             <div className="loading-preview">
@@ -350,7 +350,7 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
               <div className="qr-loading">업로드 중...</div>
             ) : qrCodeUrl ? (
               <div className="qr-image">
-                <img src={qrCodeUrl} alt="QR 코드" style={{ width: "100%", height: "100%" }}/>
+                <img src={`${process.env.PUBLIC_URL}/{qrCodeUrl}`} alt="QR 코드" style={{ width: "100%", height: "100%" }}/>
               </div>
             ) : (
               <div className="qr-placeholder">QR</div>

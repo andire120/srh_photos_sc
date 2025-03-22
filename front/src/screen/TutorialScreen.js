@@ -8,7 +8,7 @@ const TutorialScreen = ({ onComplete }) => {
     <div class="container">
         
     <div class="left">
-        <img src="/example.png" alt="example" />
+        <img src={`${process.env.PUBLIC_URL}/example.png`} alt="example" />
     </div>
     <div class="no-center">
     <ul><li>촬영 전 마음에 드는 프레임을 골라주세요.<br/><br/></li>
