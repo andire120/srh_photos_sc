@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'back.photo.catalog.apps.CatalogConfig',
+    'catalog.apps.CatalogConfig',
     'rest_framework',
 ]
 
@@ -95,7 +95,8 @@ ALLOWED_HOSTS = [
     'spam4cut.com',
     'www.spam4cut.com',
     'localhost',
-    '127.0.0.1'
+    '127.0.0.1',
+    os.environ.get('ALLOWED_HOST', 'localhost')
 ]
 
 
@@ -136,7 +137,6 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-ALLOWED_HOSTS = ['srh-photo.herokuapp.com', 'localhost', '127.0.0.1']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
