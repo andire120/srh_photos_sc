@@ -20,6 +20,7 @@ from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,8 +30,16 @@ urlpatterns = [
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
     re_path(r'^(?P<path>manifest\.json|favicon\.ico|logo192\.png|logo512\.png|robots\.txt|spamlogo\.ico)$',
             TemplateView.as_view(template_name='index.html')),
+    
+    path('manifest.json', 
+        TemplateView.as_view(
+            template_name='manifest.json', 
+            content_type='application/json'
+        )),
 ]
 
 # 개발 환경에서 미디어 파일 서빙 설정
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += staticfiles_urlpatterns()
