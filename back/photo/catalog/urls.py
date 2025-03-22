@@ -41,7 +41,6 @@ urlpatterns = [
     
     path('api/current-date/', views.get_current_date, name='current_date'),
     *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
-
     path('manifest.json', serve_manifest),
     path('spamlogo.png', serve_logo),
     path('spamlogo2.png', serve_logo),
