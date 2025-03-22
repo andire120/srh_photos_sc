@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'back.photo.catalog.apps.CatalogConfig',
     'rest_framework',
 ]
 
@@ -90,7 +91,7 @@ DATABASES = {
 }
 
 ALLOWED_HOSTS = [
-    'srh-photo.herokuapp.com',
+    'srh-photo-d86feda25493.herokuapp.com',
     'spam4cut.com',
     'www.spam4cut.com',
     'localhost',
