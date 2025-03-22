@@ -29,6 +29,7 @@ urlpatterns = [
     
     # REST API 엔드포인트
     path('api/', include(router.urls)),
+    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
     re_path(r'^(?P<path>manifest\.json|favicon\.ico|logo192\.png|logo512\.png|robots\.txt|spamlogo\.ico)$',
             TemplateView.as_view(template_name='index.html')),    # 다운로드 URL은 router가 자동으로 생성 (/api/photos/{pk}/download/)
 
@@ -44,11 +45,4 @@ urlpatterns = [
     path('spamlogo.png', serve_logo),
     path('spamlogo2.png', serve_logo),
 ]
-# 정적 파일 URL 패턴 추가
 urlpatterns += staticfiles_urlpatterns()
-
-# React SPA를 위한 catch-all 패턴은 맨 마지막에 추가
-urlpatterns.append(re_path(r'^.*$', TemplateView.as_view(template_name='index.html')))
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
