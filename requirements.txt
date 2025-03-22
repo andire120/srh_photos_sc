@@ -42,7 +42,6 @@ uvicorn==0.34.0
 virtualenv==20.28.0
 virtualenvwrapper-win==1.2.7
 xlrd==2.0.1
-gunicorn
 whitenoise
 tzdata==2024.2
 urllib3==2.2.3
