@@ -14,13 +14,27 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import os
 from django.contrib.staticfiles.views import serve
 from django.contrib import admin
+from django.http import FileResponse
 from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
+from django.conf.urls.static import static
+
+def serve_manifest(request):
+    # React 빌드 폴더 내 manifest.json 위치 지정
+    file_path = os.path.join(settings.BASE_DIR, 'frontend/build/manifest.json')
+    return FileResponse(open(file_path, 'rb'), content_type='application/json')
+
+def serve_logo(request):
+    # 로고 파일 위치 지정
+    file_path = os.path.join(settings.BASE_DIR, 'frontend/build/spamlogo.png')
+    return FileResponse(open(file_path, 'rb'), content_type='image/png')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,6 +50,12 @@ urlpatterns = [
             template_name='manifest.json', 
             content_type='application/json'
         )),
+    *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
+
+    path('manifest.json', serve_manifest),
+    path('spamlogo.png', serve_logo),
+    path('spamlogo2.png', serve_logo),
+
 ]
 
 # 개발 환경에서 미디어 파일 서빙 설정

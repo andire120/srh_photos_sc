@@ -1,12 +1,26 @@
+import os
+from django.http import FileResponse
 from django.urls import path, include, re_path
 from . import views
 from rest_framework.routers import DefaultRouter
 from django.contrib.staticfiles.views import serve
 from django.views.generic import TemplateView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
+from django.conf.urls.static import static
 
 router = DefaultRouter()
 router.register(r'photos', views.PhotoViewSet)
+
+def serve_manifest(request):
+    # React 빌드 폴더 내 manifest.json 위치 지정
+    file_path = os.path.join(settings.BASE_DIR, 'frontend/build/manifest.json')
+    return FileResponse(open(file_path, 'rb'), content_type='application/json')
+
+def serve_logo(request):
+    # 로고 파일 위치 지정
+    file_path = os.path.join(settings.BASE_DIR, 'frontend/build/spamlogo.png')
+    return FileResponse(open(file_path, 'rb'), content_type='image/png')
 
 urlpatterns = [
     path('', views.photo_list, name='photo_list'),
@@ -26,5 +40,10 @@ urlpatterns = [
         )),
     
     path('api/current-date/', views.get_current_date, name='current_date'),
+    *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
+
+    path('manifest.json', serve_manifest),
+    path('spamlogo.png', serve_logo),
+    path('spamlogo2.png', serve_logo),
 ]
 urlpatterns += staticfiles_urlpatterns()
