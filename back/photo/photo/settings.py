@@ -16,6 +16,10 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# React 빌드 파일 경로
+# 주의: gunicorn이 back/photo에서 시작하므로 상대 경로가 중요합니다
+REACT_APP_DIR = os.path.join(BASE_DIR, '../../front')  # 실제 경로에 맞게 조정
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -25,8 +29,6 @@ SECRET_KEY = 'django-insecure-&(q+p!pj5u4_lz6#!&=b1^h(#l9pq3et7-pwk3&=r2%9ms*86r
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -63,7 +66,8 @@ ROOT_URLCONF = 'photo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # React 빌드 폴더를 추가
+        'DIRS': [os.path.join(BASE_DIR, '../../front/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,7 +81,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'photo.wsgi.application'
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -88,6 +92,15 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+ALLOWED_HOSTS = [
+    'srh-photo-d86feda25493.herokuapp.com',
+    'spam4cut.com',
+    'www.spam4cut.com',
+    'localhost',
+    '127.0.0.1',
+    os.environ.get('ALLOWED_HOST', 'localhost')
+]
 
 
 # Password validation
@@ -123,9 +136,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_DIRS = [
+    os.path.join(REACT_APP_DIR, 'build/static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
