@@ -142,9 +142,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
-    os.path.join(REACT_APP_DIR, 'front/build/static'),
-    os.path.join(BASE_DIR, 'front/public'),
-    os.path.join(BASE_DIR, 'front/build'),
+    os.path.join(REACT_APP_DIR, 'build/static'),
+    os.path.join(BASE_DIR, 'public'),
+    os.path.join(BASE_DIR, 'build'),
     
 ]
 
