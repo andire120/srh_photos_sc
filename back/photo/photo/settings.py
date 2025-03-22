@@ -26,8 +26,6 @@ SECRET_KEY = 'django-insecure-&(q+p!pj5u4_lz6#!&=b1^h(#l9pq3et7-pwk3&=r2%9ms*86r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -65,7 +63,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # React 빌드 폴더를 추가
-        'DIRS': [os.path.join(BASE_DIR, 'srh_photo/front/build')],
+        'DIRS': [os.path.join(BASE_DIR,  '../../front/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
