@@ -49,3 +49,6 @@ urlpatterns += staticfiles_urlpatterns()
 
 # React SPA를 위한 catch-all 패턴은 맨 마지막에 추가
 urlpatterns.append(re_path(r'^.*$', TemplateView.as_view(template_name='index.html')))
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
