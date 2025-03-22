@@ -27,7 +27,8 @@ urlpatterns = [
 
     # 다른 모든 경로는 React 앱으로 라우팅
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
-    re_path(r'^manifest.json$', serve, {'path': 'manifest.json'}),
+    re_path(r'^(?P<path>manifest\.json|favicon\.ico|logo192\.png|logo512\.png|robots\.txt|spamlogo\.ico)$',
+            TemplateView.as_view(template_name='index.html')),
 ]
 
 # 개발 환경에서 미디어 파일 서빙 설정

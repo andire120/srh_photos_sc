@@ -15,7 +15,7 @@ urlpatterns = [
     # REST API 엔드포인트
     path('api/', include(router.urls)),
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
-    re_path(r'^manifest.json$', serve, {'path': 'manifest.json'}),
-    # 다운로드 URL은 router가 자동으로 생성 (/api/photos/{pk}/download/)
+    re_path(r'^(?P<path>manifest\.json|favicon\.ico|logo192\.png|logo512\.png|robots\.txt|spamlogo\.ico)$',
+            TemplateView.as_view(template_name='index.html')),    # 다운로드 URL은 router가 자동으로 생성 (/api/photos/{pk}/download/)
     path('api/current-date/', views.get_current_date, name='current_date'),
 ]

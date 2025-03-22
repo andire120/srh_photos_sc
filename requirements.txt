@@ -42,7 +42,7 @@ uvicorn==0.34.0
 virtualenv==20.28.0
 virtualenvwrapper-win==1.2.7
 xlrd==2.0.1
-whitenoise
+whitenoise==6.5.0  # 최신 버전으로 조정
 tzdata==2024.2
 urllib3==2.2.3
 uvicorn==0.34.0
