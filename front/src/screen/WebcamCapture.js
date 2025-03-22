@@ -144,7 +144,7 @@ const WebcamCapture = ({ addPhoto, photoCount, clearPhoto }) => {
 
   return (
     <div className="webcam-container">
-      <img src="./camera-frame.png" className="camera-frame" alt="카메라 프레임"/>
+      <img src="/camera-frame.png" className="camera-frame" alt="카메라 프레임"/>
       <Webcam
         audio={false}                 // 오디오 캡처 비활성화
         ref={webcamRef}               // 웹캠 참조 설정 (스크린샷 촬영에 사용)
@@ -169,7 +169,7 @@ const WebcamCapture = ({ addPhoto, photoCount, clearPhoto }) => {
       
       {/* 카메라 촬영 버튼 - 클릭 시 촬영 시작 */}
       <button className="camera-button" onClick={capture}>
-        <img className="camera-icon"  src="./camera.png" alt="촬영" />
+        <img className="camera-icon"  src="/camera.png" alt="촬영" />
       </button>
     </div>
   );
