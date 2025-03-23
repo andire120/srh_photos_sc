@@ -103,6 +103,17 @@ ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST', 'localhost')
 ]
 
+# settings.py에 아래 설정 추가 (또는 확인)
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',  # 개발용, 배포 시 변경 필요
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+    ],
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -165,4 +176,24 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',  # React 앱이 실행되는 도메인 (개발 환경)
     'http://localhost:8000',
     'https://srh-photo-d86feda25493.herokuapp.com',    # 실제 배포된 프론트엔드 도메인 (배포 환경)
+]
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 ]

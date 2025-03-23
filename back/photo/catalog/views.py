@@ -41,12 +41,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 
 @method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(csrf_exempt, name='dispatch')
 class PhotoViewSet(viewsets.ModelViewSet):
     queryset = Photo.objects.all().order_by('-created_at')
     serializer_class = PhotoSerializer
-    parser_classes = (MultiPartParser, FormParser)  # 이 줄을 추가
-    # authentication_classes = [TokenAuthentication]  # 개발 중에는 주석 처리
-    # permission_classes = []  # 개발 중에는 빈 리스트 사용
+    parser_classes = (MultiPartParser, FormParser)  # 이 부분이 꼭 필요합니다
     
     # 파일 업로드 처리
     def create(self, request, *args, **kwargs):
