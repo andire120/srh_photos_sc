@@ -85,7 +85,7 @@ def serve_logo(request, filename=None):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('catalog.urls')),  # API 경로
+    path(' ', include('catalog.urls')),  # API 경로
 
     re_path(r'^(?P<path>manifest\.json|favicon\.ico|logo192\.png|logo512\.png|robots\.txt|spamlogo\.ico)$',
             TemplateView.as_view(template_name='index.html')),
