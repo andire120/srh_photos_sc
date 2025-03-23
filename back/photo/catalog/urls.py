@@ -72,7 +72,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/current-date/', views.get_current_date, name='current_date'),
     path('api/some-endpoint/', views.some_endpoint, name='some-endpoint'),
-    
+
     # 정적 파일 경로
     path('manifest.json', serve_manifest),
     path('spamlogo.png', serve_logo, {'filename': 'spamlogo.png'}),

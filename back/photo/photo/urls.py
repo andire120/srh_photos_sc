@@ -85,10 +85,7 @@ def serve_logo(request, filename=None):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(' ', include('catalog.urls')),  # API 경로
-
-    re_path(r'^(?P<path>manifest\.json|favicon\.ico|logo192\.png|logo512\.png|robots\.txt|spamlogo\.ico)$',
-            TemplateView.as_view(template_name='index.html')),
+    path('', include('catalog.urls')),  # API 경로
     
     path('manifest.json', 
         TemplateView.as_view(
@@ -112,5 +109,5 @@ if settings.DEBUG:
 
 urlpatterns += staticfiles_urlpatterns()
 
-# React SPA를 위한 catch-all 패턴은 맨 마지막에 추가
-urlpatterns.append(re_path(r'^.*$', TemplateView.as_view(template_name='index.html')))
+# /api/ 경로는 제외하고 나머지만 React SPA로 라우팅
+urlpatterns.append(re_path(r'^(?!api/).*$', TemplateView.as_view(template_name='index.html')))
