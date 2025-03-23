@@ -17,10 +17,16 @@ def serve_manifest(request):
     file_path = os.path.join(settings.BASE_DIR, '/front/public/manifest.json')
     return FileResponse(open(file_path, 'rb'), content_type='application/json')
 
-def serve_logo(request):
-    # 로고 파일 위치 지정
-    file_path = os.path.join(settings.BASE_DIR, '/front/public/spamlogo.png')
-    return FileResponse(open(file_path, 'rb'), content_type='image/png')
+def serve_logo(request, filename):
+    # 프로젝트 루트에서 이미지 파일의 실제 경로 찾기
+    file_path = os.path.join(settings.BASE_DIR, 'front', 'public', filename)
+    
+    # 파일이 존재하는지 확인
+    if os.path.exists(file_path):
+        return FileResponse(open(file_path, 'rb'))
+    else:
+        from django.http import Http404
+        raise Http404(f"Image file {filename} not found")
 
 
 urlpatterns = [
@@ -45,6 +51,8 @@ urlpatterns = [
     path('manifest.json', serve_manifest),
     path('spamlogo.png', serve_logo),
     path('spamlogo2.png', serve_logo),
+
+    path('<str:filename>', serve_logo, name='serve_logo'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
