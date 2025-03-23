@@ -91,6 +91,8 @@ urlpatterns = [
     path('spamlogo.png', serve_logo, {'filename': 'spamlogo.png'}),
     path('spamlogo2.png', serve_logo, {'filename': 'spamlogo2.png'}),
     path('<str:filename>', serve_logo, name='serve_logo'),
+
+    path('api/some-endpoint/', views.some_endpoint, name='some-endpoint'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

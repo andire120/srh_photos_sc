@@ -70,3 +70,9 @@ from datetime import datetime
 def get_current_date(request):
     current_date = datetime.now().strftime('%Y-%m-%d')  # 'YYYY-MM-DD' 형식
     return JsonResponse({'current_date': current_date})
+
+from django.http import JsonResponse
+
+def some_endpoint(request):
+    data = {'message': 'Hello from Django!'}
+    return JsonResponse(data)

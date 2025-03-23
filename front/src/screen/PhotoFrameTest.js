@@ -115,51 +115,47 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
       const formData = new FormData();
       formData.append('title', `${title}_${new Date().getTime()}`);
       formData.append('image', blob, `${title}_${new Date().getTime()}.png`);
-      
-      // Add this function to your file or in a utils file
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-      return null;
-    }
-
+  
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+      }
+  
       // 서버에 이미지 업로드
       const apiBaseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-      ? 'http://127.0.0.1:8000'
-      : 'https://srh-photo-d86feda25493.herokuapp.com';
-
+        ? 'http://127.0.0.1:8000'
+        : 'https://srh-photo-d86feda25493.herokuapp.com';
+  
       console.log("현재 호스트:", window.location.hostname);
       console.log("사용할 API 기본 URL:", apiBaseUrl);
-
+  
       // 전체 API URL 구성
       const apiUrl = `${apiBaseUrl}/api/photos/`;
       console.log("최종 API URL:", apiUrl);
-
+  
       const uploadResponse = await fetch(apiUrl, {
         method: 'POST',
         headers: {
-          // If you're using Django's CSRF protection:
-          'X-CSRFToken': getCookie('csrftoken'),
-          // For cross-origin requests:
-          'X-Requested-With': 'XMLHttpRequest'
+          'X-CSRFToken': getCookie('csrftoken'), // Django CSRF token을 헤더에 포함
+          'X-Requested-With': 'XMLHttpRequest', // CORS를 위한 요청 헤더
         },
-        // Include credentials for cookies (needed for CSRF and auth)
-        credentials: 'include',
-        body: formData,
+        credentials: 'include', // 쿠키를 포함한 요청
+        body: formData, // FormData에 이미지 추가
       });
-      
+  
       if (!uploadResponse.ok) {
         throw new Error(`서버 응답 오류: ${uploadResponse.status}`);
       }
-      
+  
       const data = await uploadResponse.json();
       console.log('업로드 응답:', data);
-      
+  
       // QR 코드 URL 설정
       setQrCodeUrl(data.qr_code_url);
       setIsUploading(false);
-      
+  
       return data;
     } catch (error) {
       console.error('이미지 업로드 중 오류 발생:', error);
@@ -167,6 +163,7 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
       return null;
     }
   };
+  
 
   // html2canvas를 이용한 캡처
   const captureWithHtml2Canvas = (action) => {

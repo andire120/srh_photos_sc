@@ -60,8 +60,7 @@ MIDDLEWARE = [
 
 ]
 
-#개발중일 때만 모든 도메인 허용으로 ㄱ
-CORS_ALLOW_ALL_ORIGINS = True
+
 
 ROOT_URLCONF = 'photo.urls'
 
@@ -159,3 +158,11 @@ if not DEBUG:
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+#개발중일 때만 모든 도메인 허용으로 ㄱ
+CORS_ALLOW_ALL_ORIGINS = False
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',  # React 앱이 실행되는 도메인 (개발 환경)
+    'http://localhost:8000',
+    'https://https://srh-photo-d86feda25493.herokuapp.com',    # 실제 배포된 프론트엔드 도메인 (배포 환경)
+]
