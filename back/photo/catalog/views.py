@@ -37,10 +37,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+
+@method_decorator(csrf_exempt, name='dispatch')
 class PhotoViewSet(viewsets.ModelViewSet):
     queryset = Photo.objects.all().order_by('-created_at')
     serializer_class = PhotoSerializer
-    authentication_classes = [TokenAuthentication]
+    # authentication_classes = [TokenAuthentication]  # 개발 중에는 주석 처리
+    # permission_classes = []  # 개발 중에는 빈 리스트 사용
     
     # 파일 업로드 처리
     def create(self, request, *args, **kwargs):

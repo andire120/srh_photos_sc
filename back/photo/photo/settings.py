@@ -164,5 +164,5 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',  # React 앱이 실행되는 도메인 (개발 환경)
     'http://localhost:8000',
-    'https://https://srh-photo-d86feda25493.herokuapp.com',    # 실제 배포된 프론트엔드 도메인 (배포 환경)
+    'https://srh-photo-d86feda25493.herokuapp.com',    # 실제 배포된 프론트엔드 도메인 (배포 환경)
 ]

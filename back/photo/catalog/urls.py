@@ -67,33 +67,26 @@ def serve_logo(request, filename=None):
     from django.http import Http404
     raise Http404(f"Image file {filename} not found. Tried multiple locations.")
 
-
 urlpatterns = [
+    # API 엔드포인트를 먼저 정의
+    path('api/', include(router.urls)),
+    path('api/current-date/', views.get_current_date, name='current_date'),
+    path('api/some-endpoint/', views.some_endpoint, name='some-endpoint'),
+    
+    # 정적 파일 경로
+    path('manifest.json', serve_manifest),
+    path('spamlogo.png', serve_logo, {'filename': 'spamlogo.png'}),
+    path('spamlogo2.png', serve_logo, {'filename': 'spamlogo2.png'}),
+    
+    # 기본 뷰 경로
     path('', views.photo_list, name='photo_list'),
     path('photo/<uuid:pk>/', views.photo_detail, name='photo_detail'),
     path('photo/create/', views.photo_create, name='photo_create'),
     
-    # REST API 엔드포인트
-    path('api/', include(router.urls)),
+    # catch-all 패턴은 가장 마지막에 정의
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
-    re_path(r'^(?P<path>manifest\.json|favicon\.ico|logo192\.png|logo512\.png|robots\.txt|spamlogo\.ico)$',
-            TemplateView.as_view(template_name='index.html')),    # 다운로드 URL은 router가 자동으로 생성 (/api/photos/{pk}/download/)
-
-    path('manifest.json', 
-        TemplateView.as_view(
-            template_name='manifest.json', 
-            content_type='application/json'
-        )),
-    
-    path('api/current-date/', views.get_current_date, name='current_date'),
-    *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
-    path('manifest.json', serve_manifest),
-    path('spamlogo.png', serve_logo, {'filename': 'spamlogo.png'}),
-    path('spamlogo2.png', serve_logo, {'filename': 'spamlogo2.png'}),
-    path('<str:filename>', serve_logo, name='serve_logo'),
-
-    path('api/some-endpoint/', views.some_endpoint, name='some-endpoint'),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
