@@ -7,6 +7,8 @@ from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from .serializers import PhotoSerializer
 import os
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 # 기존 뷰 유지
 def photo_list(request):
@@ -29,9 +31,16 @@ def photo_create(request):
 
 
 # React와 통신하기 위한 API 뷰 추가
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 class PhotoViewSet(viewsets.ModelViewSet):
     queryset = Photo.objects.all().order_by('-created_at')
     serializer_class = PhotoSerializer
+    authentication_classes = [TokenAuthentication]
     
     # 파일 업로드 처리
     def create(self, request, *args, **kwargs):

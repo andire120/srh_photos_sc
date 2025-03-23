@@ -85,7 +85,7 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
           console.error("프레임 이미지 로드 실패:", e);
           reject(e);
         };
-        frameImg.src = `/${frameType}.png`;
+        frameImg.src = `${process.env.PUBLIC_URL}/${frameType}.png`;
       });
       
       ctx.drawImage(frameImg, 0, 0, canvas.width, canvas.height);
@@ -116,9 +116,36 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
       formData.append('title', `${title}_${new Date().getTime()}`);
       formData.append('image', blob, `${title}_${new Date().getTime()}.png`);
       
+      // Add this function to your file or in a utils file
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    }
+
       // 서버에 이미지 업로드
-      const uploadResponse = await fetch('http://127.0.0.1:8000/api/photos/', {
+      const apiBaseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://127.0.0.1:8000'
+      : 'https://srh-photo-d86feda25493.herokuapp.com';
+
+      console.log("현재 호스트:", window.location.hostname);
+      console.log("사용할 API 기본 URL:", apiBaseUrl);
+
+      // 전체 API URL 구성
+      const apiUrl = `${apiBaseUrl}/api/photos/`;
+      console.log("최종 API URL:", apiUrl);
+
+      const uploadResponse = await fetch(apiUrl, {
         method: 'POST',
+        headers: {
+          // If you're using Django's CSRF protection:
+          'X-CSRFToken': getCookie('csrftoken'),
+          // For cross-origin requests:
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        // Include credentials for cookies (needed for CSRF and auth)
+        credentials: 'include',
         body: formData,
       });
       
@@ -327,7 +354,7 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
         <div className="preview-container">
           {isPreviewReady && mergedImageUrl ? (// 합성된 이미지가 있으면 보여주기
             <div className="merged-image-preview" >
-              <img src={`${process.env.PUBLIC_URL}/{mergedImageUrl}`} alt="합성된 인생네컷" className="result-image"/>
+              <img src={mergedImageUrl} alt="합성된 인생네컷" className="result-image"/>
             </div>
           ) : ( // 로딩 중이거나 합성 실패 시 보여주는 부분 
             <div className="loading-preview">
@@ -350,7 +377,7 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
               <div className="qr-loading">업로드 중...</div>
             ) : qrCodeUrl ? (
               <div className="qr-image">
-                <img src={`${process.env.PUBLIC_URL}/{qrCodeUrl}`} alt="QR 코드" style={{ width: "100%", height: "100%" }}/>
+                <img src={qrCodeUrl} alt="QR 코드" style={{ width: "100%", height: "100%" }}/>
               </div>
             ) : (
               <div className="qr-placeholder">QR</div>
@@ -382,7 +409,7 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
             />
           ))}
           <img
-            src={`/${frameType}.png`}
+            src={`${process.env.PUBLIC_URL}/${frameType}.png`} 
             alt="프레임"
             className="frame-overlay"
             onLoad={handleFrameLoad}
