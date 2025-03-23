@@ -31,10 +31,30 @@ def serve_manifest(request):
     file_path = os.path.join(settings.BASE_DIR, '/front/public/manifest.json')
     return FileResponse(open(file_path, 'rb'), content_type='application/json')
 
-def serve_logo(request):
-    # 로고 파일 위치 지정
-    file_path = os.path.join(settings.BASE_DIR, '/front/public/spamlogo.png')
-    return FileResponse(open(file_path, 'rb'), content_type='image/png')
+def serve_logo(request, filename=None):
+    # If filename is not provided in the URL, use the default
+    if filename is None:
+        if 'spamlogo.png' in request.path:
+            filename = 'spamlogo.png'
+        elif 'spamlogo2.png' in request.path:
+            filename = 'spamlogo2.png'
+        else:
+            from django.http import Http404
+            raise Http404("No filename specified")
+    
+    # Make sure there's no leading slash in path components
+    file_path = os.path.join(settings.BASE_DIR, 'front', 'public', filename)
+    
+    # Debug the path
+    print(f"Looking for file at: {file_path}")
+    print(f"BASE_DIR is: {settings.BASE_DIR}")
+    
+    # Check if file exists
+    if os.path.exists(file_path):
+        return FileResponse(open(file_path, 'rb'))
+    else:
+        from django.http import Http404
+        raise Http404(f"Image file {filename} not found at {file_path}")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -50,8 +70,9 @@ urlpatterns = [
         )),
     *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
     path('manifest.json', serve_manifest),
-    path('spamlogo.png', serve_logo),
-    path('spamlogo2.png', serve_logo),
+    path('spamlogo.png', serve_logo, {'filename': 'spamlogo.png'}),
+    path('spamlogo2.png', serve_logo, {'filename': 'spamlogo2.png'}),
+    path('<str:filename>', serve_logo, name='serve_logo'),
 
 ]
 

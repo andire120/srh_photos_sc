@@ -16,17 +16,30 @@ def serve_manifest(request):
     # React 빌드 폴더 내 manifest.json 위치 지정
     file_path = os.path.join(settings.BASE_DIR, '/front/public/manifest.json')
     return FileResponse(open(file_path, 'rb'), content_type='application/json')
-
-def serve_logo(request, filename):
-    # 프로젝트 루트에서 이미지 파일의 실제 경로 찾기
+def serve_logo(request, filename=None):
+    # If filename is not provided in the URL, use the default
+    if filename is None:
+        if 'spamlogo.png' in request.path:
+            filename = 'spamlogo.png'
+        elif 'spamlogo2.png' in request.path:
+            filename = 'spamlogo2.png'
+        else:
+            from django.http import Http404
+            raise Http404("No filename specified")
+    
+    # Make sure there's no leading slash in path components
     file_path = os.path.join(settings.BASE_DIR, 'front', 'public', filename)
     
-    # 파일이 존재하는지 확인
+    # Debug the path
+    print(f"Looking for file at: {file_path}")
+    print(f"BASE_DIR is: {settings.BASE_DIR}")
+    
+    # Check if file exists
     if os.path.exists(file_path):
         return FileResponse(open(file_path, 'rb'))
     else:
         from django.http import Http404
-        raise Http404(f"Image file {filename} not found")
+        raise Http404(f"Image file {filename} not found at {file_path}")
 
 
 urlpatterns = [
@@ -49,9 +62,8 @@ urlpatterns = [
     path('api/current-date/', views.get_current_date, name='current_date'),
     *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
     path('manifest.json', serve_manifest),
-    path('spamlogo.png', serve_logo),
-    path('spamlogo2.png', serve_logo),
-
+    path('spamlogo.png', serve_logo, {'filename': 'spamlogo.png'}),
+    path('spamlogo2.png', serve_logo, {'filename': 'spamlogo2.png'}),
     path('<str:filename>', serve_logo, name='serve_logo'),
 ]
 if settings.DEBUG:
