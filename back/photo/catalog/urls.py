@@ -28,14 +28,44 @@ def serve_logo(request, filename=None):
             from django.http import Http404
             raise Http404("No filename specified")
     
-    # Use the absolute path directly instead of joining with BASE_DIR
-    file_path = os.path.join('/front/public', filename)
+    # Print current directory and files for debugging
+    import os
+    import logging
+    logger = logging.getLogger(__name__)
     
-    if os.path.exists(file_path):
-        return FileResponse(open(file_path, 'rb'))
-    else:
-        from django.http import Http404
-        raise Http404(f"Image file {filename} not found at {file_path}")
+    # Log current working directory
+    cwd = os.getcwd()
+    logger.error(f"Current working directory: {cwd}")
+    
+    # Log files in current directory
+    try:
+        files = os.listdir(cwd)
+        logger.error(f"Files in current directory: {files}")
+    except Exception as e:
+        logger.error(f"Error listing files: {e}")
+    
+    # Try multiple possible locations
+    possible_paths = [
+        '/front/public/' + filename,
+        '/app/front/public/' + filename,
+        os.path.join(cwd, 'front', 'public', filename),
+        os.path.join(cwd, '..', 'front', 'public', filename),
+        os.path.join(cwd, '..', '..', 'front', 'public', filename),
+    ]
+    
+    # Log all possible paths
+    logger.error(f"Trying paths: {possible_paths}")
+    
+    # Check each path
+    for path in possible_paths:
+        if os.path.exists(path):
+            logger.error(f"Found file at: {path}")
+            return FileResponse(open(path, 'rb'))
+        else:
+            logger.error(f"File not found at: {path}")
+    
+    from django.http import Http404
+    raise Http404(f"Image file {filename} not found. Tried multiple locations.")
 
 
 urlpatterns = [
