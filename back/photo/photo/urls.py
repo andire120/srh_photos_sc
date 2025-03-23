@@ -42,14 +42,9 @@ def serve_logo(request, filename=None):
             from django.http import Http404
             raise Http404("No filename specified")
     
-    # Make sure there's no leading slash in path components
-    file_path = os.path.join(settings.BASE_DIR, 'front', 'public', filename)
+    # Use the absolute path directly instead of joining with BASE_DIR
+    file_path = os.path.join('/front/public', filename)
     
-    # Debug the path
-    print(f"Looking for file at: {file_path}")
-    print(f"BASE_DIR is: {settings.BASE_DIR}")
-    
-    # Check if file exists
     if os.path.exists(file_path):
         return FileResponse(open(file_path, 'rb'))
     else:
