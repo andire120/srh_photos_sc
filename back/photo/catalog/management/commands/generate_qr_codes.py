@@ -1,5 +1,5 @@
+# management/commands/generate_qrcodes.py
 from django.core.management.base import BaseCommand
-from back.photo.catalog import serializers
 from catalog.models import Photo
 from django.urls import reverse
 from io import BytesIO
@@ -9,23 +9,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# serializers.py
-class PhotoSerializer(serializers.ModelSerializer):
+class Command(BaseCommand):
     help = '모든 사진에 대한 QR 코드 생성'
-    qr_code_url = serializers.SerializerMethodField()
     
-    class Meta:
-        model = Photo
-        fields = ['id', 'title', 'image', 'qr_code', 'qr_code_url', 'created_at']
-    
-    def get_qr_code_url(self, obj):
-        if obj.qr_code:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.qr_code.url)
-        return None
-    
-
     def handle(self, *args, **options):
         photos = Photo.objects.all()
         created_count = 0

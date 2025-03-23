@@ -38,17 +38,26 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 
+from rest_framework.parsers import MultiPartParser, FormParser
+
 @method_decorator(csrf_exempt, name='dispatch')
 class PhotoViewSet(viewsets.ModelViewSet):
     queryset = Photo.objects.all().order_by('-created_at')
     serializer_class = PhotoSerializer
+    parser_classes = (MultiPartParser, FormParser)  # 이 줄을 추가
     # authentication_classes = [TokenAuthentication]  # 개발 중에는 주석 처리
     # permission_classes = []  # 개발 중에는 빈 리스트 사용
     
     # 파일 업로드 처리
     def create(self, request, *args, **kwargs):
+        print("Request data:", request.data)  # 디버깅을 위한 출력
+        print("Request FILES:", request.FILES)  # 파일 정보 출력
+        
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        if not serializer.is_valid():
+            print("Serializer errors:", serializer.errors)  # 에러 출력
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
