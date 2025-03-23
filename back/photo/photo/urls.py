@@ -28,12 +28,12 @@ from django.conf.urls.static import static
 
 def serve_manifest(request):
     # React 빌드 폴더 내 manifest.json 위치 지정
-    file_path = os.path.join(settings.BASE_DIR, 'frontend/build/manifest.json')
+    file_path = os.path.join(settings.BASE_DIR, '/front/public/manifest.json')
     return FileResponse(open(file_path, 'rb'), content_type='application/json')
 
 def serve_logo(request):
     # 로고 파일 위치 지정
-    file_path = os.path.join(settings.BASE_DIR, 'frontend/build/spamlogo.png')
+    file_path = os.path.join(settings.BASE_DIR, '/front/public/spamlogo.png')
     return FileResponse(open(file_path, 'rb'), content_type='image/png')
 
 urlpatterns = [
