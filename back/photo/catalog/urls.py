@@ -82,6 +82,21 @@ urlpatterns = [
     path('', views.photo_list, name='photo_list'),
     path('photo/<uuid:pk>/', views.photo_detail, name='photo_detail'),
     path('photo/create/', views.photo_create, name='photo_create'),
+
+    path('photo/', views.photo_list, name='photo_list'),
+    path('photo/<int:pk>/', views.photo_detail, name='photo_detail'),
+    path('photo/create/', views.photo_create, name='photo_create'),
+    
+    # API endpoints
+    path('api/', include(router.urls)),  # This will create /api/photos/ endpoint with POST support
+    path('api/upload/', views.upload_photo, name='upload_photo'),
+    path('api/date/', views.get_current_date, name='get_current_date'),
+    path('api/some-endpoint/', views.some_endpoint, name='some_endpoint'),
+
+    path('', include(router.urls)),  # /api/photos/ 경로 생성
+    path('upload/', views.upload_photo, name='upload_photo'),
+    path('date/', views.get_current_date, name='get_current_date'),
+    path('some-endpoint/', views.some_endpoint, name='some_endpoint'),
     
     # catch-all 패턴은 가장 마지막에 정의
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),

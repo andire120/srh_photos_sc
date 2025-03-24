@@ -26,7 +26,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
 
-from catalog.views import some_endpoint
+from catalog.views import PhotoViewSet, some_endpoint
 
 def serve_manifest(request):
     # React 빌드 폴더 내 manifest.json 위치 지정
@@ -102,6 +102,8 @@ urlpatterns = [
     path('<str:filename>', serve_logo, name='serve_logo'),
 
     path('api/some-endpoint/', some_endpoint, name='some-endpoint'),
+
+    path('api/photos/', PhotoViewSet.as_view({'get': 'list', 'post': 'create'}), name='photo-list'),
 
 ]
 
