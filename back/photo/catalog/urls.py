@@ -38,7 +38,7 @@ urlpatterns = [
     # Photo API
     path('api/photos/', views.PhotoViewSet.as_view({'get': 'list', 'post': 'create'}), name='photo-list'),
     path('api/photos/<int:pk>/', views.PhotoViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'}), name='photo-detail'),
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),  # `api/`를 추가하지 않음
     
     # Upload API
     path('api/upload/', views.upload_photo, name='upload_photo'),
