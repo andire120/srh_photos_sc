@@ -8,6 +8,13 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
 
+import logging
+logger = logging.getLogger(__name__)
+
+router = DefaultRouter()
+router.register(r'photos', views.PhotoViewSet)
+logger.error(f"Router URLs: {router.urls}")  # 등록된 URL 패턴 로깅
+
 router = DefaultRouter()
 router.register(r'photos', views.PhotoViewSet)
 
@@ -59,6 +66,10 @@ def serve_logo(request, filename=None):
     raise Http404(f"Image file {filename} not found. Tried multiple locations.")
 
 urlpatterns = [
+    # 명시적으로 Photo ViewSet에 대한 경로를 추가
+    path('api/photos/', views.PhotoViewSet.as_view({'get': 'list', 'post': 'create'}), name='photo-list'),
+    path('api/photos/<int:pk>/', views.PhotoViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'}), name='photo-detail'),
+
     # API 엔드포인트 (하나의 명확한 경로로 통합)
     path('api/', include(router.urls)),  # 이것이 /api/photos/ 엔드포인트를 생성합니다
     path('api/upload/', views.upload_photo, name='upload_photo'),
