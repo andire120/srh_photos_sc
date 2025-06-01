@@ -63,11 +63,14 @@ MIDDLEWARE = [
 ASGI_APPLICATION = 'photo.asgi.application'
 ROOT_URLCONF = 'photo.urls'
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REACT_BUILD_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', 'front', 'build'))
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # React 빌드 폴더를 추가
-        'DIRS': [os.path.join(BASE_DIR, '../front/build')],
+        'DIRS':  [REACT_BUILD_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
