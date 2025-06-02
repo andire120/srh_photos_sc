@@ -26,7 +26,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
 
-from app.back.photo.catalog import views
+from catalog import views
 from catalog.views import PhotoViewSet, some_endpoint, upload_photo
 
 def serve_manifest(request):
