@@ -26,6 +26,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
 
+from app.back.photo.catalog import views
 from catalog.views import PhotoViewSet, some_endpoint, upload_photo
 
 def serve_manifest(request):
@@ -85,6 +86,9 @@ def serve_logo(request, filename=None):
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name="index.html")),
+
+    path('api/upload/', views.upload_photo, name='upload_photo'),
+
 
     path('admin/', admin.site.urls),
     path('api/', include('catalog.urls')),  # API 경로
