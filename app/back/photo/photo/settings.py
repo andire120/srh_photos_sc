@@ -183,6 +183,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:8000',
     'http://127.0.0.1:3000',
     'https://srh-photo.onrender.com',
+    "https://srh-photo-d86feda25493.herokuapp.com",
 ]
 # 신뢰할 수 있는 출처 설정 (CSRF 검증에 사용됨)
 CSRF_TRUSTED_ORIGINS = [
@@ -190,6 +191,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:3000',
     'http://localhost:8000',
     'https://srh-photo.onrender.com',
+    "https://srh-photo-d86feda25493.herokuapp.com",
 ]
 
 CORS_ALLOW_METHODS = [
