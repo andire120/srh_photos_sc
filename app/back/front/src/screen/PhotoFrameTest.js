@@ -102,7 +102,7 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
     }
   };
 
- const uploadApiUrl = "https://srh-photo.onrender.com/api/upload/";
+const uploadApiUrl = "https://srh-photo-d86feda25493.herokuapp.com/api/upload/";
 
 // 이미지 서버에 업로드
 const uploadImageToServer = async (imageDataUrl) => {
