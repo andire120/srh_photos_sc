@@ -107,7 +107,7 @@ urlpatterns = [
 
     path('api/photos/', PhotoViewSet.as_view({'get': 'list', 'post': 'create'}), name='photo-list'),
 
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)    
 
 # 개발 환경에서 미디어 파일 서빙 설정
 if settings.DEBUG:
