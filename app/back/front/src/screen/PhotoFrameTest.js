@@ -102,63 +102,78 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
     }
   };
 
-const uploadApiUrl = "https://srh-photo-d86feda25493.herokuapp.com/api/upload/";
-
-// 이미지 서버에 업로드
-const uploadImageToServer = async (imageDataUrl) => {
-  try {
-    setIsUploading(true);
-
-    // 1. base64 이미지를 Blob으로 변환
-    const response = await fetch(imageDataUrl);
-    if (!response.ok) {
-      throw new Error(`이미지 가져오기 실패: ${response.status}`);
-    }
-    const blob = await response.blob();
-
-    // 2. FormData 생성
-    const timestamp = new Date().getTime();
-    const fileName = `${title}_${timestamp}.png`;
-
-    const formData = new FormData();
-    formData.append('title', `${title}_${timestamp}`);
-    formData.append('image', blob, fileName);  // 필드명은 Django serializer 기준
-
-    // 3. 업로드 요청
-    const uploadResponse = await fetch(uploadApiUrl, {
-      method: 'POST',
-      body: formData,
-      mode: 'cors',
-      credentials: 'omit', // CSRF 없으니 include 말고 omit
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        // Content-Type 생략해야 FormData가 boundary 자동으로 설정됨
+  // 이미지를 서버에 업로드하고 QR 코드 URL 받기
+  const uploadImageToServer = async (imageUrl) => {
+    try {
+      setIsUploading(true);
+      
+      // base64 이미지 URL을 Blob으로 변환
+      const response = await fetch(imageUrl);
+      if (!response.ok) {
+        throw new Error(`이미지 가져오기 실패: ${response.status}`);
       }
-    });
-
-    // 4. 응답 확인
-    const responseText = await uploadResponse.text(); // 먼저 텍스트로 받기
-    if (!uploadResponse.ok) {
-      throw new Error(`서버 응답 오류(${uploadResponse.status}): ${responseText}`);
+      const blob = await response.blob();
+      
+      // FormData 생성 및 이미지 추가
+      const formData = new FormData();
+      const timestamp = new Date().getTime();
+      const fileName = `${title}_${timestamp}.png`;
+      
+      formData.append('title', `${title}_${timestamp}`);
+      formData.append('image', blob, fileName);
+  
+      // API 기본 URL 결정 (개발 환경 vs 프로덕션 환경)
+      const apiBaseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://127.0.0.1:8000'
+        : 'https://srh-photo-d86feda25493.herokuapp.com/';
+  
+      console.log("현재 호스트:", window.location.hostname);
+      console.log("사용할 API 기본 URL:", apiBaseUrl);
+  
+      // 전체 API URL 구성
+      const apiUrl = `${apiBaseUrl}/api/upload/`;
+      console.log("최종 API URL:", apiUrl);
+  
+      // 서버에 이미지 업로드 - CORS 문제 해결을 위한 설정
+      const uploadResponse = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          // CSRF 토큰은 같은 도메인일 때만 필요
+          // 'X-CSRFToken': getCookie('csrftoken'),
+          'X-Requested-With': 'XMLHttpRequest',
+          // 명시적으로 Content-Type을 설정하지 않음 (FormData가 자동으로 설정)
+        },
+        // credentials: 'include' 대신 CORS 요청에 더 적합한 설정 사용
+        credentials: 'include', // 같은 도메인일 때만 쿠키 전송
+        mode: 'cors', // CORS 모드 명시적 설정
+        body: formData,
+      });
+  
+      // 서버 응답 확인
+      if (!uploadResponse.ok) {
+        const errorText = await uploadResponse.text();
+        throw new Error(`서버 응답 오류(${uploadResponse.status}): ${errorText}`);
+      }
+  
+      // 응답 데이터 파싱
+      const data = await uploadResponse.json();
+      console.log('업로드 성공 응답:', data);
+  
+      // QR 코드 URL 설정
+      if (data.qr_code_url) {
+        setQrCodeUrl(data.qr_code_url);
+      }
+      
+      setIsUploading(false);
+      return data;
+    } catch (error) {
+      console.error('이미지 업로드 중 오류 발생:', error);
+      setIsUploading(false);
+      // 사용자에게 오류 메시지를 표시하기 위한 상태 업데이트 추가 가능
+      // setErrorMessage(error.message);
+      return null;
     }
-
-    const data = JSON.parse(responseText); // 그다음 JSON으로 파싱
-    console.log('✅ 업로드 성공:', data);
-
-    // QR 코드 URL 설정 (서버에서 제공할 경우)
-    if (data.qr_code_url) {
-      setQrCodeUrl(data.qr_code_url);
-    }
-
-    setIsUploading(false);
-    return data;
-
-  } catch (error) {
-    console.error('❌ 이미지 업로드 중 오류 발생:', error);
-    setIsUploading(false);
-    return null;
-  }
-};
+  };
 
   // html2canvas를 이용한 캡처
   const captureWithHtml2Canvas = (action) => {
