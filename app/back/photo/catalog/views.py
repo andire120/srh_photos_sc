@@ -38,7 +38,7 @@ def photo_create(request):
 logger = logging.getLogger(__name__)
 
 @csrf_exempt
-@api_view(['POST', 'OPTIONS'])
+@api_view(['POST', 'OPTIONS', 'GET'])
 def upload_photo(request):
     # OPTIONS 요청 처리 (CORS preflight)
     if request.method == 'OPTIONS':

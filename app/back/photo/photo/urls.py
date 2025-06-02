@@ -116,4 +116,4 @@ if settings.DEBUG:
 urlpatterns += staticfiles_urlpatterns()
 
 # /api/ 경로는 제외하고 나머지만 React SPA로 라우팅
-urlpatterns.append(re_path(r'^(?!api/)(?!admin/).*$', TemplateView.as_view(template_name='index.html')))
+#urlpatterns.append(re_path(r'^(?!api/)(?!admin/).*$', TemplateView.as_view(template_name='index.html')))
