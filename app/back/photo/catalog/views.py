@@ -77,7 +77,7 @@ class PhotoViewSet(viewsets.ModelViewSet):
         if request.method == 'OPTIONS':
             response = Response(status=status.HTTP_200_OK)
             response['Access-Control-Allow-Origin'] = 'https://srh-photo-d86feda25493.herokuapp.com'
-            response['Access-Control-Allow-Methods'] = 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+            response['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
             response['Access-Control-Allow-Headers'] = 'Content-Type, X-Requested-With, Authorization'
             return response
         return super().dispatch(request, *args, **kwargs)
