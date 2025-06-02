@@ -384,10 +384,13 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
               <div className="qr-loading">업로드 중...</div>
             ) : qrCodeUrl ? (
               <div className="qr-image">
+                <p>QR URL: {qrCodeUrl}</p> {/* 디버깅용 */}
                 <img src={qrCodeUrl} alt="QR 코드" style={{ width: "100%", height: "100%" }}/>
               </div>
             ) : (
-              <div className="qr-placeholder">QR</div>
+              <div className="qr-placeholder">
+                QR (qrCodeUrl이 없습니다) {/* 디버깅용 */}
+              </div>
             )}
           </div>
           
