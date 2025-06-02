@@ -68,8 +68,7 @@ REACT_BUILD_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', 'front', 'build')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # React 빌드 폴더를 추가
-        'DIRS':  [os.path.join(BASE_DIR, '..', 'front', 'build')],
+        'DIRS': [REACT_BUILD_DIR],  # React의 실제 index.html 경로
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -163,6 +162,10 @@ STATICFILES_DIRS = [
 ]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+react_static_dir = os.path.join(REACT_BUILD_DIR, 'static')
+if os.path.exists(react_static_dir):
+    STATICFILES_DIRS.append(react_static_dir)
+    
 if not DEBUG:
     MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
