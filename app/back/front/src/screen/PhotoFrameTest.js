@@ -102,58 +102,63 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
     }
   };
 
-  const uploadApiUrl = "https://srh-photo.onrender.com/api/upload/";
+ const uploadApiUrl = "https://srh-photo.onrender.com/api/upload/";
 
-  // 이미지를 서버에 업로드하고 QR 코드 URL 받기
-  logger.warning("✅ upload_photo 호출됨")
-  const uploadImageToServer = async (imageDataUrl) => {
-    try {
-      setIsUploading(true);
+// 이미지 서버에 업로드
+const uploadImageToServer = async (imageDataUrl) => {
+  try {
+    setIsUploading(true);
 
-      // base64 이미지 URL을 Blob으로 변환
-      const response = await fetch(imageDataUrl);  // ✅ 여긴 진짜 이미지 주소여야 함 (ex: canvas.toDataURL())
-      if (!response.ok) {
-        throw new Error(`이미지 가져오기 실패: ${response.status}`);
-      }
-      const blob = await response.blob();
-
-      const formData = new FormData();
-      const timestamp = new Date().getTime();
-      const fileName = `${title}_${timestamp}.png`;
-
-      formData.append('title', `${title}_${timestamp}`);
-      formData.append('image', blob, fileName);
-
-      const uploadResponse = await fetch(uploadApiUrl, {
-        method: 'POST',
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-        },
-        credentials: 'include',
-        mode: 'cors',
-        body: formData,
-      });
-
-      if (!uploadResponse.ok) {
-        const errorText = await uploadResponse.text();
-        throw new Error(`서버 응답 오류(${uploadResponse.status}): ${errorText}`);
-      }
-
-      const data = await uploadResponse.json();
-      console.log('업로드 성공 응답:', data);
-
-      if (data.qr_code_url) {
-        setQrCodeUrl(data.qr_code_url);
-      }
-
-      setIsUploading(false);
-      return data;
-    } catch (error) {
-      console.error('이미지 업로드 중 오류 발생:', error);
-      setIsUploading(false);
-      return null;
+    // 1. base64 이미지를 Blob으로 변환
+    const response = await fetch(imageDataUrl);
+    if (!response.ok) {
+      throw new Error(`이미지 가져오기 실패: ${response.status}`);
     }
-  };
+    const blob = await response.blob();
+
+    // 2. FormData 생성
+    const timestamp = new Date().getTime();
+    const fileName = `${title}_${timestamp}.png`;
+
+    const formData = new FormData();
+    formData.append('title', `${title}_${timestamp}`);
+    formData.append('image', blob, fileName);  // 필드명은 Django serializer 기준
+
+    // 3. 업로드 요청
+    const uploadResponse = await fetch(uploadApiUrl, {
+      method: 'POST',
+      body: formData,
+      mode: 'cors',
+      credentials: 'omit', // CSRF 없으니 include 말고 omit
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        // Content-Type 생략해야 FormData가 boundary 자동으로 설정됨
+      }
+    });
+
+    // 4. 응답 확인
+    const responseText = await uploadResponse.text(); // 먼저 텍스트로 받기
+    if (!uploadResponse.ok) {
+      throw new Error(`서버 응답 오류(${uploadResponse.status}): ${responseText}`);
+    }
+
+    const data = JSON.parse(responseText); // 그다음 JSON으로 파싱
+    console.log('✅ 업로드 성공:', data);
+
+    // QR 코드 URL 설정 (서버에서 제공할 경우)
+    if (data.qr_code_url) {
+      setQrCodeUrl(data.qr_code_url);
+    }
+
+    setIsUploading(false);
+    return data;
+
+  } catch (error) {
+    console.error('❌ 이미지 업로드 중 오류 발생:', error);
+    setIsUploading(false);
+    return null;
+  }
+};
 
   // html2canvas를 이용한 캡처
   const captureWithHtml2Canvas = (action) => {
