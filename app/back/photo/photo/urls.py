@@ -85,6 +85,7 @@ def serve_logo(request, filename=None):
     raise Http404(f"Image file {filename} not found. Tried multiple locations.")
 
 urlpatterns = [
+    path('', views.index, name='home'),  # ✅ 빈 경로 추가
     path('admin/', admin.site.urls),
     path('api/', include('catalog.urls')),  # API 경로
     path('upload/', views.upload_photo, name='upload_photo'),

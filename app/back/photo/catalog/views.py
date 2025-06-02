@@ -136,3 +136,8 @@ class PhotoViewSet(viewsets.ModelViewSet):
 def some_endpoint(request):
     data = {'message': 'Hello from Django!'}
     return JsonResponse(data)
+
+from django.shortcuts import render
+
+def index(request):
+    return render(request, 'index.html')  # React build된 HTML
