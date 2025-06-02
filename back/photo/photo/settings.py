@@ -63,7 +63,7 @@ MIDDLEWARE = [
 ASGI_APPLICATION = 'photo.asgi.application'
 ROOT_URLCONF = 'photo.urls'
 
-REACT_BUILD_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', 'front', 'build'))
+REACT_BUILD_DIR = BASE_DIR.parent / 'front' / 'build'
 
 TEMPLATES = [
     {
@@ -162,10 +162,11 @@ STATICFILES_DIRS = [
 ]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-react_static_dir = os.path.join(REACT_BUILD_DIR, 'static')
-if os.path.exists(react_static_dir):
-    STATICFILES_DIRS.append(react_static_dir)
-    
+# [4] 정적 파일 설정 (React 정적 리소스)
+react_static_dir = REACT_BUILD_DIR / 'static'
+if react_static_dir.exists():
+    STATICFILES_DIRS.append(str(react_static_dir))
+
 if not DEBUG:
     MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
