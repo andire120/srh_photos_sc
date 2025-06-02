@@ -53,8 +53,6 @@ urlpatterns = [
     path('photo/<int:pk>/', views.photo_detail, name='photo_detail'),
     path('photo/create/', views.photo_create, name='photo_create'),
 
-    # React SPA 지원을 위한 catch-all 패턴
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
 ]
 
 # 정적 파일 설정
