@@ -102,7 +102,9 @@ ALLOWED_HOSTS = [
     'www.spam4cut.com',
     'localhost',
     '127.0.0.1',
-    os.environ.get('ALLOWED_HOST', 'localhost')
+    os.environ.get('ALLOWED_HOST', 'localhost'),
+    'testserver',  # 추가
+
 ]
 
 # settings.py에 아래 설정 추가 (또는 확인)
@@ -118,7 +120,7 @@ REST_FRAMEWORK = {
 }
 
 # Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
+# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators  
 
 AUTH_PASSWORD_VALIDATORS = [
     {

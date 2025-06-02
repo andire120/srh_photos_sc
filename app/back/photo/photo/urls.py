@@ -88,7 +88,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('api/', include('catalog.urls')),  # API 경로
-    
+
     re_path(r'^(?P<path>manifest\.json|favicon\.ico|logo192\.png|logo512\.png|robots\.txt|spamlogo\.ico)$',
             TemplateView.as_view(template_name='index.html')),
     
@@ -107,7 +107,7 @@ urlpatterns = [
 
     path('api/photos/', PhotoViewSet.as_view({'get': 'list', 'post': 'create'}), name='photo-list'),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # 개발 환경에서 미디어 파일 서빙 설정
 if settings.DEBUG:
