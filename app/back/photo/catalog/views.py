@@ -38,13 +38,13 @@ def photo_create(request):
 logger = logging.getLogger(__name__)
 
 @csrf_exempt
-@api_view(['POST', 'OPTIONS'])
+@api_view(['POST', 'OPTIONS', 'GET'])
 def upload_photo(request):
     # OPTIONS 요청 처리 (CORS preflight)
     if request.method == 'OPTIONS':
         response = Response(status=status.HTTP_200_OK)
         response['Access-Control-Allow-Origin'] = 'https://srh-photo-d86feda25493.herokuapp.com'  # 또는 특정 도메인
-        response['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
+        response['Access-Control-Allow-Methods'] = 'POST, OPTIONS, GET'
         response['Access-Control-Allow-Headers'] = 'Content-Type, X-Requested-With'
         return response
     
