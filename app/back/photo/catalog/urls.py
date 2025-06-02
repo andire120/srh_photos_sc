@@ -44,6 +44,7 @@ urlpatterns = [
     path('date/', views.get_current_date, name='get_current_date'),
     path('current-date/', views.get_current_date, name='current_date'),
     path('some-endpoint/', views.some_endpoint, name='some_endpoint'),
+    path('api/upload/', views.upload_photo, name='upload_photo'),
 
     # 정적 파일 서빙
     path('manifest.json', serve_manifest),

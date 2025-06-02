@@ -26,7 +26,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
 
-from catalog.views import PhotoViewSet, some_endpoint
+from catalog.views import PhotoViewSet, some_endpoint, upload_photo
 
 def serve_manifest(request):
     # React 빌드 폴더 내 manifest.json 위치 지정
@@ -88,6 +88,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('api/', include('catalog.urls')),  # API 경로
+    path('api/upload/', upload_photo, name='upload_photo'),
 
     re_path(r'^(?P<path>manifest\.json|favicon\.ico|logo192\.png|logo512\.png|robots\.txt|spamlogo\.ico)$',
             TemplateView.as_view(template_name='index.html')),
