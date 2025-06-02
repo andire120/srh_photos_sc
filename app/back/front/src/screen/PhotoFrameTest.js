@@ -156,7 +156,6 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
       // 서버 응답 확인
       if (!uploadResponse.ok) {
         const errorText = await uploadResponse.text();
-        console.error("서버 오류 응답:", errorText); // 추가
         throw new Error(`서버 응답 오류(${uploadResponse.status}): ${errorText}`);
       }
   
@@ -164,29 +163,27 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
       const data = await uploadResponse.json();
       // console.log('업로드 성공 응답:', data);
       // console.log('data.qr_code_url:', data.qr_code_url); // 이 줄 추가
-      console.log('전체 응답 데이터:', JSON.stringify(data, null, 2));
+      console.log('전체 응답 데이터:', data);
 
-      // QR 코드 URL 설정
-      if (data.qr_code_url) {
-        console.log('QR 코드 URL 찾음:', data.qr_code_url);
+      // QR 코드 URL 설정 - 수정된 버전
+      if (data.qr_code_url && data.qr_code_url !== null) {
+        // qr_code_url이 있고 null이 아닌 경우
+        console.log('qr_code_url 사용:', data.qr_code_url);
         setQrCodeUrl(data.qr_code_url);
+      } else if (data.qr_code) {
+        // qr_code_url이 없거나 null인 경우, qr_code 상대 경로 사용
+        const fullQrUrl = `${apiBaseUrl}${data.qr_code}`;
+        console.log('상대 경로:', data.qr_code);
+        console.log('변환된 절대 URL:', fullQrUrl);
+        setQrCodeUrl(fullQrUrl);
       } else {
-        console.log('QR 코드 URL 없음. 응답 키들:', Object.keys(data));
-        // 다른 가능한 키 이름들 확인
-        if (data.qrCodeUrl) setQrCodeUrl(data.qrCodeUrl);
-        else if (data.qr_url) setQrCodeUrl(data.qr_url);
-        else if (data.qrUrl) setQrCodeUrl(data.qrUrl);
+        console.log('QR 코드 정보를 찾을 수 없습니다');
       }
 
       setIsUploading(false);
       return data;
     } catch (error) {
-        console.error('상세 오류 정보:', {
-        message: error.message,
-        stack: error.stack,
-        name: error.name
-      });
-      // console.error('이미지 업로드 중 오류 발생:', error);
+      console.error('이미지 업로드 중 오류 발생:', error);
       // setIsUploading(false);
       // 사용자에게 오류 메시지를 표시하기 위한 상태 업데이트 추가 가능
       // setErrorMessage(error.message);
