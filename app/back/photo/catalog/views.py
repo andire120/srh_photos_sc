@@ -33,7 +33,7 @@ def photo_create(request):
     return render(request, 'photos/photo_form.html', {'form': form})
 
 # React와 통신하기 위한 API 뷰 추가
-@api_view(['POST'])
+@api_view(['POST','OPTIONS'])
 def upload_photo(request):
     logger.info("파일 업로드 요청 받음")
     logger.debug(f"Request data: {request.data}")

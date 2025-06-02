@@ -102,6 +102,8 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
     }
   };
 
+  imageUrl = "https://srh-photo.onrender.com/api/upload/";
+
   // 이미지를 서버에 업로드하고 QR 코드 URL 받기
   const uploadImageToServer = async (imageUrl) => {
     try {
