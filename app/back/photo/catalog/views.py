@@ -43,7 +43,7 @@ def upload_photo(request):
     # OPTIONS 요청 처리 (CORS preflight)
     if request.method == 'OPTIONS':
         response = Response(status=status.HTTP_200_OK)
-        response['Access-Control-Allow-Origin'] = '*'  # 또는 특정 도메인
+        response['Access-Control-Allow-Origin'] = 'https://srh-photo-d86feda25493.herokuapp.com'  # 또는 특정 도메인
         response['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
         response['Access-Control-Allow-Headers'] = 'Content-Type, X-Requested-With'
         return response
@@ -62,7 +62,7 @@ def upload_photo(request):
     
     # CORS 헤더를 포함한 응답
     response = Response(serializer.data, status=status.HTTP_201_CREATED)
-    response['Access-Control-Allow-Origin'] = '*'  # 또는 'https://srh-photo-d86feda25493.herokuapp.com'
+    response['Access-Control-Allow-Origin'] = 'https://srh-photo-d86feda25493.herokuapp.com'
     return response
 
 
@@ -76,7 +76,7 @@ class PhotoViewSet(viewsets.ModelViewSet):
         # OPTIONS 요청 처리 (CORS preflight)
         if request.method == 'OPTIONS':
             response = Response(status=status.HTTP_200_OK)
-            response['Access-Control-Allow-Origin'] = '*'  # 또는 특정 도메인
+            response['Access-Control-Allow-Origin'] = 'https://srh-photo-d86feda25493.herokuapp.com'
             response['Access-Control-Allow-Methods'] = 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
             response['Access-Control-Allow-Headers'] = 'Content-Type, X-Requested-With, Authorization'
             return response
@@ -105,7 +105,7 @@ class PhotoViewSet(viewsets.ModelViewSet):
             )
         
         # CORS 헤더 추가
-        response['Access-Control-Allow-Origin'] = '*'  # 또는 'https://srh-photo-d86feda25493.herokuapp.com'
+        response['Access-Control-Allow-Origin'] = 'https://srh-photo-d86feda25493.herokuapp.com'
         return response
     
     def list(self, request, *args, **kwargs):
