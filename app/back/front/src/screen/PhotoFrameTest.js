@@ -135,6 +135,7 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
       console.log("최종 API URL:", apiUrl);
   
       // 서버에 이미지 업로드 - CORS 문제 해결을 위한 설정
+      console.log("요청 전송 중..."); 
       const uploadResponse = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -148,29 +149,48 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
         mode: 'cors', // CORS 모드 명시적 설정
         body: formData,
       });
+
+      console.log("응답 상태:", uploadResponse.status); // 추가
+      console.log("응답 헤더:", uploadResponse.headers); // 추가
   
       // 서버 응답 확인
       if (!uploadResponse.ok) {
         const errorText = await uploadResponse.text();
+        console.error("서버 오류 응답:", errorText); // 추가
         throw new Error(`서버 응답 오류(${uploadResponse.status}): ${errorText}`);
       }
   
-      // 응답 데이터 파싱
+      // 응답 데이터 파싱 후 추가
       const data = await uploadResponse.json();
-      console.log('업로드 성공 응답:', data);
-  
+      // console.log('업로드 성공 응답:', data);
+      // console.log('data.qr_code_url:', data.qr_code_url); // 이 줄 추가
+      console.log('전체 응답 데이터:', JSON.stringify(data, null, 2));
+
       // QR 코드 URL 설정
       if (data.qr_code_url) {
+        console.log('QR 코드 URL 찾음:', data.qr_code_url);
         setQrCodeUrl(data.qr_code_url);
+      } else {
+        console.log('QR 코드 URL 없음. 응답 키들:', Object.keys(data));
+        // 다른 가능한 키 이름들 확인
+        if (data.qrCodeUrl) setQrCodeUrl(data.qrCodeUrl);
+        else if (data.qr_url) setQrCodeUrl(data.qr_url);
+        else if (data.qrUrl) setQrCodeUrl(data.qrUrl);
       }
-      
+
       setIsUploading(false);
       return data;
     } catch (error) {
-      console.error('이미지 업로드 중 오류 발생:', error);
-      setIsUploading(false);
+        console.error('상세 오류 정보:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      });
+      // console.error('이미지 업로드 중 오류 발생:', error);
+      // setIsUploading(false);
       // 사용자에게 오류 메시지를 표시하기 위한 상태 업데이트 추가 가능
       // setErrorMessage(error.message);
+      setIsUploading(false);
       return null;
     }
   };
@@ -384,13 +404,10 @@ const PhotoFrameTest = ({ photos, frameType, onBack, title = "인생네컷" }) =
               <div className="qr-loading">업로드 중...</div>
             ) : qrCodeUrl ? (
               <div className="qr-image">
-                <p>QR URL: {qrCodeUrl}</p> {/* 디버깅용 */}
                 <img src={qrCodeUrl} alt="QR 코드" style={{ width: "100%", height: "100%" }}/>
               </div>
             ) : (
-              <div className="qr-placeholder">
-                QR (qrCodeUrl이 없습니다) {/* 디버깅용 */}
-              </div>
+              <div className="qr-placeholder">QR</div>
             )}
           </div>
           
