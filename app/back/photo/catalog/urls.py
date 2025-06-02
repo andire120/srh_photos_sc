@@ -39,6 +39,7 @@ def serve_logo(request, filename):
 urlpatterns = [
     # API 엔드포인트 (api/ 아래로 통일)
     path('', include(router.urls)),  # 🚀 `api/` 아래로 `router` 포함
+    path('', TemplateView.as_view(template_name="index.html")),
     path('upload/', views.upload_photo, name='upload_photo'),
     path('date/', views.get_current_date, name='get_current_date'),
     path('current-date/', views.get_current_date, name='current_date'),
