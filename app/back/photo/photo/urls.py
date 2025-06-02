@@ -88,8 +88,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('api/', include('catalog.urls')),  # API 경로
-    path('api/upload/', upload_photo, name='upload_photo'),
-
+    
     re_path(r'^(?P<path>manifest\.json|favicon\.ico|logo192\.png|logo512\.png|robots\.txt|spamlogo\.ico)$',
             TemplateView.as_view(template_name='index.html')),
     
