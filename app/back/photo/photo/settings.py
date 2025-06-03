@@ -64,7 +64,10 @@ MIDDLEWARE = [
 ASGI_APPLICATION = 'photo.asgi.application'
 ROOT_URLCONF = 'photo.urls'
 
-REACT_BUILD_DIR = BASE_DIR / 'front' / 'build'
+REACT_BUILD_DIR = BASE_DIR.parent / 'front' / 'build'  # ✅ Path 객체로 유지
+
+# 이후 static 디렉토리 설정도 문제 없이 동작함
+react_static_dir = REACT_BUILD_DIR / 'static'
 
 TEMPLATES = [
     {
