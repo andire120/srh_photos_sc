@@ -64,7 +64,7 @@ MIDDLEWARE = [
 ASGI_APPLICATION = 'photo.asgi.application'
 ROOT_URLCONF = 'photo.urls'
 
-REACT_BUILD_DIR = BASE_DIR.parent / 'front' / 'build'
+REACT_BUILD_DIR = BASE_DIR / 'front' / 'build'
 
 TEMPLATES = [
     {
