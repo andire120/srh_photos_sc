@@ -166,9 +166,9 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # [4] 정적 파일 설정 (React 정적 리소스)
-react_static_dir = REACT_BUILD_DIR / 'static'
-if react_static_dir.exists():
-    STATICFILES_DIRS.append(str(react_static_dir))
+# react_static_dir = REACT_BUILD_DIR / 'static'
+# if react_static_dir.exists():
+#     STATICFILES_DIRS.append(str(react_static_dir))
 
 if not DEBUG:
     MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
