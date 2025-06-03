@@ -107,8 +107,8 @@ urlpatterns = [
     path('api/photos/', PhotoViewSet.as_view({'get': 'list', 'post': 'create'}), name='photo-list'),
 
     
-    re_path(r'^(?P<path>manifest\.json|favicon\.ico|logo192\.png|logo512\.png|robots\.txt|spamlogo\.ico)$',
-            TemplateView.as_view(template_name='index.html')),
+    #re_path(r'^(?P<path>manifest\.json|favicon\.ico|logo192\.png|logo512\.png|robots\.txt|spamlogo\.ico)$',
+    #        TemplateView.as_view(template_name='index.html')),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)    
 
