@@ -66,7 +66,7 @@ ROOT_URLCONF = 'photo.urls'
 
 BASE_DIR = Path(__file__).resolve().parent.parent  # back/photo 기준
 
-REACT_BUILD_DIR = BASE_DIR.parent / 'front' / 'build'
+REACT_BUILD_DIR = Path(__file__).resolve().parent.parent / 'front' / 'build'
 
 TEMPLATES = [
     {
