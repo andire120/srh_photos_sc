@@ -161,7 +161,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = [
-    REACT_BUILD_DIR / 'static',
+    REACT_BUILD_DIR / 'static',  # ✅ 딱 static 폴더만!
 ]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
