@@ -64,12 +64,14 @@ MIDDLEWARE = [
 ASGI_APPLICATION = 'photo.asgi.application'
 ROOT_URLCONF = 'photo.urls'
 
-REACT_BUILD_DIR = BASE_DIR / 'front' / 'build'  # ✅ BASE_DIR은 back 기준
-# 이후 static 디렉토리 설정도 문제 없이 동작함
+BASE_DIR = Path(__file__).resolve().parent.parent  # back/photo 기준
+
+REACT_BUILD_DIR = Path(__file__).resolve().parent.parent / 'front' / 'build'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [REACT_BUILD_DIR],  # React의 실제 index.html 경로
+        'DIRS': [REACT_BUILD_DIR],  # index.html 여기 있어야 함
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -156,10 +158,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = [
-    REACT_BUILD_DIR / 'static', 
+    REACT_BUILD_DIR / 'static',
 ]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
