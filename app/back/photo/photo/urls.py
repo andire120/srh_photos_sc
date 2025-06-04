@@ -29,6 +29,11 @@ from django.conf.urls.static import static
 from catalog import views
 from catalog.views import PhotoViewSet, some_endpoint, upload_photo
 
+from django.shortcuts import render
+from django.views import View
+
+
+
 def serve_manifest(request):
     # React 빌드 폴더 내 manifest.json 위치 지정
     file_path = os.path.join(settings.BASE_DIR, '/front/public/manifest.json')
@@ -84,33 +89,42 @@ def serve_logo(request, filename=None):
     from django.http import Http404
     raise Http404(f"Image file {filename} not found. Tried multiple locations.")
 
+class ReactAppView(View):
+    def get(self, request):
+        from django.http import HttpResponse
+        import os
+
+        index_path = os.path.join(settings.BASE_DIR, 'front', 'build', 'index.html')
+        try:
+            with open(index_path, 'r', encoding='utf-8') as f:
+                return HttpResponse(f.read())
+        except FileNotFoundError:
+            return HttpResponse(
+                "index.html not found. Did you run 'npm run build'?",
+                status=501,
+            )
+
+
 urlpatterns = [
-    path('', views.index, name='home'),  # ✅ 빈 경로 추가
     path('admin/', admin.site.urls),
-    path('api/', include('catalog.urls')),  # API 경로
+    path('api/', include('catalog.urls')),
     path('upload/', views.upload_photo, name='upload_photo'),
-    #path('api/upload/', views.upload_photo, name='upload_photo'),
-    path('', TemplateView.as_view(template_name="index.html")),
-    
+
     path('manifest.json', 
         TemplateView.as_view(
-            template_name='manifest.json', 
+            template_name='manifest.json',
             content_type='application/json'
         )),
-    *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
     path('spamlogo.png', serve_logo, {'filename': 'spamlogo.png'}),
     path('spamlogo2.png', serve_logo, {'filename': 'spamlogo2.png'}),
     path('<str:filename>', serve_logo, name='serve_logo'),
 
     path('api/some-endpoint/', some_endpoint, name='some-endpoint'),
-
     path('api/photos/', PhotoViewSet.as_view({'get': 'list', 'post': 'create'}), name='photo-list'),
 
-    
-    #re_path(r'^(?P<path>manifest\.json|favicon\.ico|logo192\.png|logo512\.png|robots\.txt|spamlogo\.ico)$',
-    #        TemplateView.as_view(template_name='index.html')),
-
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)    
+    # ✅ React SPA catch-all
+    re_path(r'^.*$', ReactAppView.as_view()),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # 개발 환경에서 미디어 파일 서빙 설정
 if settings.DEBUG:
@@ -118,6 +132,8 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += staticfiles_urlpatterns()
+
+
 
 # /api/ 경로는 제외하고 나머지만 React SPA로 라우팅
 #urlpatterns.append(re_path(r'^(?!api/)(?!admin/).*$', TemplateView.as_view(template_name='index.html')))
