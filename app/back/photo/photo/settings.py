@@ -44,11 +44,11 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # 이게 맨 위로 와야 함
-    'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -64,14 +64,10 @@ MIDDLEWARE = [
 ASGI_APPLICATION = 'photo.asgi.application'
 ROOT_URLCONF = 'photo.urls'
 
-BASE_DIR = Path(__file__).resolve().parent.parent  # back/photo 기준
-
-REACT_BUILD_DIR = BASE_DIR.parent / 'front' / 'build'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [REACT_BUILD_DIR],  # index.html 여기 있어야 함
+        'DIRS': [],  # React 빌드 폴더 제거
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,14 +96,11 @@ DATABASES = {
 ALLOWED_HOSTS = [
     'srh-photo.onrender.com',
     'srh-photo-d86feda25493.herokuapp.com',
-    'srh-photo-sc-b1229d9be6d2.herokuapp.com',
     'spam4cut.com',
     'www.spam4cut.com',
     'localhost',
     '127.0.0.1',
-    os.environ.get('ALLOWED_HOST', 'localhost'),
-    'testserver',  # 추가
-
+    os.environ.get('ALLOWED_HOST', 'localhost')
 ]
 
 # settings.py에 아래 설정 추가 (또는 확인)
@@ -123,7 +116,7 @@ REST_FRAMEWORK = {
 }
 
 # Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators  
+# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -158,38 +151,29 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
-    REACT_BUILD_DIR / 'static',  # ✅ 딱 static 폴더만!
+    # React 관련 디렉토리 제거
 ]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# [4] 정적 파일 설정 (React 정적 리소스)
-# react_static_dir = REACT_BUILD_DIR / 'static'
-# if react_static_dir.exists():
-#     STATICFILES_DIRS.append(str(react_static_dir))
-
 if not DEBUG:
     MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
-    # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #개발중일 때만 모든 도메인 허용으로 ㄱ
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',  # React 앱이 실행되는 도메인 (개발 환경)
     'http://localhost:8000',
     'http://127.0.0.1:3000',
     'https://srh-photo.onrender.com',
-    "https://srh-photo-d86feda25493.herokuapp.com",
-    "https://srh-photo-sc-b1229d9be6d2.herokuapp.com",
-    'https://spam4cut.com',
 ]
 # 신뢰할 수 있는 출처 설정 (CSRF 검증에 사용됨)
 CSRF_TRUSTED_ORIGINS = [
@@ -197,10 +181,6 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:3000',
     'http://localhost:8000',
     'https://srh-photo.onrender.com',
-    "https://srh-photo-d86feda25493.herokuapp.com",
-    "https://srh-photo-sc-b1229d9be6d2.herokuapp.com",
-    'https://spam4cut.com',
-    
 ]
 
 CORS_ALLOW_METHODS = [
@@ -223,3 +203,6 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "x-requested-with",
 ]
+
+
+CORS_ALLOW_CREDENTIALS = True  # 쿠키를 포함하여 요청을 보내도록 설정
